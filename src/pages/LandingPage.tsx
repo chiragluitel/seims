@@ -1,9 +1,11 @@
+import Greeting from "../components/Greeting";
+
 const LandingPage = ()=>{
     return (
         <>
-            <div>
-                <h1> Hey, I am SEIMS </h1>
-            </div>
+           <div className="align-center mt-10">
+                <Greeting/>
+           </div>
         </>
     )
 }
