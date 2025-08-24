@@ -1,9 +1,9 @@
 import { createBrowserRouter, Outlet, type RouteObject } from "react-router-dom";
 import LandingPage from "./pages/LandingPage";
 import Four0Four from "./pages/404Error";
-import Navbar from "./components/navbar/Navbar";
-import HomePage from "./pages/Homepage";
 import WidgetsPage from "./pages/WidgetsPage";
+import Navbar from "./components/navbar/navbar";
+import HomePage from "./pages/HomePage";
 
 const routes: RouteObject[] = [
     {

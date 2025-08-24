@@ -3,6 +3,8 @@ import { createRoot } from 'react-dom/client'
 import './index.css'
 import { router } from './routes'
 import { RouterProvider } from 'react-router-dom'
+import { Provider } from 'react-redux';
+import {store} from './store/store'
 // import App from './App.tsx'
 
 const App:React.FC = () =>{
@@ -13,6 +15,8 @@ const App:React.FC = () =>{
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <App />
+    <Provider store={store}>
+      <App />
+    </Provider>
   </StrictMode>,
 )

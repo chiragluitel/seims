@@ -1,6 +1,6 @@
 import ProductCards from "../ProductCards";
 import ScrollableBox from "../ListItems/ScrollableBox";
-import { products } from "../../Mocked_DB/Products";
+import { products } from "../../mocked_DB/Products";
 
 const QuickSelect = () => {
     return (

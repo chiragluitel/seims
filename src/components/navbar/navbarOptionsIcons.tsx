@@ -20,7 +20,7 @@ const NavbarOptionsIcons = ({ icon, navigateTo}: NavbarOptionsProps) => {
                         }`
                     }
                 >
-                    <span className="text-xl">{icon}</span>
+                    <span className="text-3xl">{icon}</span>
                 </NavLink>  
             </nav>
         </>

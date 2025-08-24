@@ -13,7 +13,7 @@ const NavbarLoggedIn = ( ) =>{
     }
     return (
     <>
-        <div className={`h-full bg-card shadow-lg transition-all duration-300 ${isOpen ? 'w-54' : 'w-30'} z-50`}>
+        <div className={`h-full bg-card shadow-lg transition-all duration-300 ${isOpen ? 'w-54' : 'w-24'} z-50`}>
             <div className="flex items-center justify-between p-4 border-w border-border">
                 <button onClick={()=>handleToggle()} className="text-foreground cursor-pointer"> <FiMenu /> </button>
                 <img

@@ -1,11 +1,13 @@
-import QuickSelect from "../components/homepage/QuickSelect";
+import Greeting from "../components/Greeting";
+import Video from "../components/Video";
 
 const HomePage = ()=>{
     return (
         <>
-        <div>
-            <QuickSelect />
-        </div>
+           <div className="align-center mt-10">
+                <Greeting/>
+                <Video />
+           </div>
         </>
     )
 }

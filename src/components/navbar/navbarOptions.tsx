@@ -21,7 +21,7 @@ const NavbarOptions = ({ icon, label, navigateTo}: NavbarOptionsProps) => {
                         }`
                     }
                 >
-                    <span className="text-xl">{icon}</span>
+                    <span className="text-3xl">{icon}</span>
                     <span className='ml-4'> {label} </span>
                 </NavLink>  
             </nav>
