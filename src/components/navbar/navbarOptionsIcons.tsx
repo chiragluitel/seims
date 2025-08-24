@@ -15,12 +15,12 @@ const NavbarOptionsIcons = ({ icon, navigateTo}: NavbarOptionsProps) => {
                     className={({ isActive }) =>
                         `flex items-center px-4 py-3 cursor-pointer transition-colors ${
                             isActive
-                                ? 'bg-blue-600 text-white'
-                                : 'hover:bg-blue-500 hover:text-white'
+                                ? 'bg-black text-white'
+                                : 'hover:bg-gray-800 hover:text-white'
                         }`
                     }
                 >
-                    <span className="text-3xl">{icon}</span>
+                    <span className="text-3xl cursor-pointer">{icon}</span>
                 </NavLink>  
             </nav>
         </>

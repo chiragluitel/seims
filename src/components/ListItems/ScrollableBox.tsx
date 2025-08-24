@@ -1,4 +1,3 @@
-
 ///Implementing Search and OnClick Remaining
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -15,7 +14,7 @@ const variants = {
   exit: (direction: number) => ({ zIndex: 0, x: direction < 0 ? '100%' : '-100%', opacity: 0 }),
 };
 
-const ScrollableBox: React.FC<ScrollableBoxProps> = ({ children }) => {
+const ScrollableBox: React.FC<ScrollableBoxProps> = ({ children }) => { 
 
   const [[page, direction], setPage] = useState<[number, number]>([0, 0]);
   const itemsPerPage = 8;
@@ -38,7 +37,7 @@ const ScrollableBox: React.FC<ScrollableBoxProps> = ({ children }) => {
   };
 
   return (
-    <div className="w-full max-w-5xl p-5 border-4 border-teal-400 rounded-2xl bg-white shadow-lg">
+    <div className="w-full max-w-5xl p-5 border-4 border-black-800 rounded-2xl bg-white shadow-lg">
       <div className="relative h-90 overflow-hidden flex items-center">
         <AnimatePresence initial={false} custom={direction}>
           <motion.div
