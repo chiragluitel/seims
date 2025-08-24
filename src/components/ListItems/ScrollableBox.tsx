@@ -1,115 +1,83 @@
-import {useRef, useState, useEffect} from "react"
-import {FiChevronLeft, FiChevronRight} from "react-icons/fi"
-import CurrentPageIndicator from "./CurrentPageIndicator"
 
-interface ScrollableBoxProps {
-    children: React.ReactNode[]
-}
+///Implementing Search and OnClick Remaining
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import CurrentPageIndicator from './CurrentPageIndicator';
 
-const ScrollableBox: React.FC<ScrollableBoxProps> = ( {children} ) => {
-    
-    const scrollContainerRef = useRef<HTMLDivElement | null> (null)
-    const [page, setPage] = useState(0)
-    const [isAtStart, setIsAtStart] = useState(true);
-    const [isAtEnd, setIsAtEnd] = useState(false);
+type ScrollableBoxProps = {
+  children: React.ReactNode;
+};
 
-    const productsPerPage = 6;
+const SWIPE_CONFIDENCE_THRESHOLD = 10000;
+const variants = {
+  enter: (direction: number) => ({ x: direction > 0 ? '100%' : '-100%', opacity: 0 }),
+  center: { zIndex: 1, x: 0, opacity: 1 },
+  exit: (direction: number) => ({ zIndex: 0, x: direction < 0 ? '100%' : '-100%', opacity: 0 }),
+};
 
-    const totalPages = Math.ceil(children.length / productsPerPage);
+const ScrollableBox: React.FC<ScrollableBoxProps> = ({ children }) => {
 
-    const handleScroll = () =>{
-        if (!scrollContainerRef.current) return;
-        const {scrollLeft, scrollWidth, clientWidth} = scrollContainerRef.current;
-        const currentPage = Math.round(scrollLeft/clientWidth);
-        setPage(currentPage);
+  const [[page, direction], setPage] = useState<[number, number]>([0, 0]);
+  const itemsPerPage = 8;
+  const pages: React.ReactNode[][] = [];
+  const childrenArray = React.Children.toArray(children);
+  for (let i = 0; i < childrenArray.length; i += itemsPerPage) {
+    pages.push(childrenArray.slice(i, i + itemsPerPage));
+  }
+  const totalPages = pages.length;
 
-        setIsAtStart ( scrollLeft <=0 );
-        setIsAtEnd ( scrollLeft + clientWidth >= scrollWidth - 1);
-    }
+  const paginate = (newDirection: number) => {
+    let newPage = page + newDirection;
+    if (newPage < 0 || newPage >= totalPages) return;
+    setPage([newPage, newDirection]);
+  };
 
-    const handleNext = () =>{
-        if (scrollContainerRef.current){
-            scrollContainerRef.current.scrollBy({
-                left: scrollContainerRef.current.clientWidth,
-                behavior: 'smooth'
-            })
-        }
-    }
-    const handlePrev = () =>{
-        if (scrollContainerRef.current){
-            scrollContainerRef.current.scrollBy({
-                left: -scrollContainerRef.current.clientWidth,
-                behavior: 'smooth'
-            })
-        }
-    }
+  const goToPage = (newPage: number) => {
+    const newDirection = newPage > page ? 1 : -1;
+    setPage([newPage, newDirection]);
+  };
 
-    const handlePageClick = (page: number) => {
-        setPage(page);
-        if (scrollContainerRef.current){
-            const scrollPosition = scrollContainerRef.current.clientWidth * page;
-            scrollContainerRef.current.scrollTo({
-                left: scrollPosition,
-                behavior: 'smooth'
-            })
-        }
-    }
+  return (
+    <div className="w-full max-w-5xl p-5 border-4 border-teal-400 rounded-2xl bg-white shadow-lg">
+      <div className="relative h-90 overflow-hidden flex items-center">
+        <AnimatePresence initial={false} custom={direction}>
+          <motion.div
+            key={page}
+            className="grid grid-cols-4 grid-rows-2 gap-4 w-full absolute"
+            custom={direction}
+            variants={variants}
+            initial="enter"
+            animate="center"
+            exit="exit"
+            transition={{ x: { type: 'spring', stiffness: 300, damping: 30 }, opacity: { duration: 0.2 } }}
+            drag="x"
+            dragConstraints={{ left: 0, right: 0 }}
+            dragElastic={0.2}
+            onDragEnd={(e, { offset, velocity }) => {
+              const swipe = Math.abs(offset.x) * velocity.x;
+              if (swipe < -SWIPE_CONFIDENCE_THRESHOLD) {
+                paginate(1);
+              } else if (swipe > SWIPE_CONFIDENCE_THRESHOLD) {
+                paginate(-1);
+              }
+            }}
+          >
+            {pages[page]}
+          </motion.div>
+        </AnimatePresence>
+        {/* <div
+          className="arrow right-0 translate-x-1/2"
+          onClick={() => paginate(1)}
+        >›</div>
+        <div
+          className="arrow left-0 -translate-x-1/2"
+          onClick={() => paginate(-1)}
+        >‹</div> */}
+      </div>
+      <CurrentPageIndicator totalPages={totalPages} currentPage={page} onClick={goToPage} />
+    </div>
+  );
+};
 
-    useEffect (() => {
-        const currentRef = scrollContainerRef.current;
-        if (currentRef){
-            currentRef.addEventListener('scroll', handleScroll);
-        }
-        return () => {
-            if (currentRef){
-                currentRef.removeEventListener('scroll', handleScroll);
-            }
-        }
-    }, [])
-
-    return (
-        <>
-        <div className="relative">
-            
-            <div
-                ref={scrollContainerRef}
-                className="grid grid-cols-[repeat(auto-fill,minmax(100%,1fr))] overflow-x-auto snap-x snap-mandatory hide-scrollbar gap-4"
-                style={{ gridAutoFlow: 'column' }}
-            >
-                {Array.from({ length: totalPages }, (_, pageIndex) => (
-                    <div
-                        key={pageIndex}
-                        className="grid grid-cols-3 grid-rows-2 gap-4 snap-start w-full p-4"
-                    >
-                        {children.slice(
-                            pageIndex * productsPerPage,
-                            (pageIndex + 1) * productsPerPage
-                        )}
-                    </div>
-                ))}
-            </div>
-
-            <div className="flex justify-between items-center mt-4 absolute w-full top-1/2 -translate-y-1/2 px-4">
-                <button
-                    onClick={handlePrev}
-                    className={`p-2 rounded-full bg-gray-200 text-gray-800 transition-opacity duration-300 ${isAtStart ? 'opacity-0 cursor-not-allowed' : 'opacity-100'}`}
-                    disabled={isAtStart}
-                >
-                    <FiChevronLeft size={24} />
-                </button>
-                <button
-                    onClick={handleNext}
-                    className={`p-2 rounded-full bg-gray-200 text-gray-800 transition-opacity duration-300 ${isAtEnd ? 'opacity-0 cursor-not-allowed' : 'opacity-100'}`}
-                    disabled={isAtEnd}
-                >
-                    <FiChevronRight size={24} />
-                </button>
-            </div>
-
-            <CurrentPageIndicator totalPages={totalPages} currentPage={page} onClick={handlePageClick}/>
-        </div>
-        </>
-    )
-}
 
 export default ScrollableBox;
