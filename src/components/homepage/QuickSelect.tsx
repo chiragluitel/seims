@@ -1,5 +1,4 @@
 import ProductCards from "../ProductCards";
-import logo from '../../assets/logoexample.jpg'
 import ScrollableBox from "../ListItems/ScrollableBox";
 import { products } from "../../Mocked_DB/Products";
 
@@ -11,7 +10,7 @@ const QuickSelect = () => {
             <div className="h-auto w-auto">
             <ScrollableBox>
                 {products.map((product) => (
-                    <ProductCards key={product.id} name={product.name} image={logo}/>
+                    <ProductCards key={product.id} name={product.name} image={product.image}/>
                 ))}
             </ScrollableBox>
             </div>
