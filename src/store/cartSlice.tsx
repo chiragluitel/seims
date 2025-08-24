@@ -48,11 +48,11 @@ export const cartSlice = createSlice({
             state.total = calculateTotal(state.items);
         },
 
-        addDiscount: (state, action:PayloadAction<{amount:number}>) => {
+        applyDiscount: (state, action:PayloadAction<{amount:number}>) => {
             const { amount } = action.payload;
             state.discount = amount;
         },
-        
+
         clearCart: (state) => {
             state.items = [];
             state.total = 0;
@@ -61,6 +61,6 @@ export const cartSlice = createSlice({
     }
 } );
 
-export const {addToCart, removeFromCart, updateQuantity, clearCart} = cartSlice.actions
+export const {addToCart, removeFromCart, updateQuantity, clearCart, applyDiscount} = cartSlice.actions
 
 export default cartSlice.reducer;

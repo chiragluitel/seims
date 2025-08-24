@@ -1,5 +1,5 @@
 
-import { addToCart, clearCart, removeFromCart, updateQuantity } from "../store/cartSlice";
+import { addToCart, applyDiscount, clearCart, removeFromCart, updateQuantity,  } from "../store/cartSlice";
 import { useAppDispatch, useAppSelector } from "../store/hooks"
 import type { Product } from "../types";
 
@@ -26,6 +26,10 @@ export const useCartFunctions = () =>{
         dispatch(clearCart());
     }
 
+    const addDiscount = (amount: number) => {
+        dispatch(applyDiscount({amount}))
+    }
+
     const totalItems = items.reduce((sum, item) => sum + item.quantity,0)
 
     return {
@@ -35,6 +39,7 @@ export const useCartFunctions = () =>{
         addItem,
         removeItem,
         setQuantity,
-        emptyCart
+        emptyCart,
+        addDiscount
     }
 }
