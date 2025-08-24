@@ -1,25 +1,20 @@
+import { useCartFunctions } from "../../../hooks/useCartFunctions";
 import CartItem from "./CartItem"
 import CartItemQuantity from "./CartItemQuantity";
 
-interface CartItemDetailProps{
-    name: string,
-    price: number
-    quantity: number
-}
 
-const CartItemDetail: React.FC<CartItemDetailProps> = ({name, price, quantity}) =>{ 
+const CartItemDetail = () =>{ 
     const handleQuantityPlus = () =>{
 
     }
     const handleQuantityMinus = () =>{
         
     }
+    const {items} = useCartFunctions()
     return (
         <>
             <div>
-                <CartItem name={name} price={price}/>
-                <CartItemQuantity productID="id" quantity={2} onMinus={handleQuantityMinus} onPlus={handleQuantityPlus} />
-                <h1> Total: {price * quantity}  </h1>
+
             </div>
         </>
     )
