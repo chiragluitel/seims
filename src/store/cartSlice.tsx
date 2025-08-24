@@ -2,8 +2,9 @@ import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 import type { CartItem, CartState, Product } from "../types";
 
 const initialState: CartState = {
-    items: [],
-    total: 0
+    items: [{ID:"Hey", Name:"Chirag", Price:10, quantity:1}, {ID:"Heyy", Name:"Chirag2", Price:20, quantity:1}],
+    total: 0,
+    discount: 0
 }
 
 const calculateTotal = (items: CartItem[]): number => {
@@ -47,6 +48,11 @@ export const cartSlice = createSlice({
             state.total = calculateTotal(state.items);
         },
 
+        addDiscount: (state, action:PayloadAction<{amount:number}>) => {
+            const { amount } = action.payload;
+            state.discount = amount;
+        },
+        
         clearCart: (state) => {
             state.items = [];
             state.total = 0;

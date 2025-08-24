@@ -13,5 +13,6 @@ export interface CartItem extends Product {
 export interface CartState {
     items: CartItem[]
     total: number
+    discount: number
 }
 

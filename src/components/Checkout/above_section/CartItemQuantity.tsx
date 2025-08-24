@@ -1,5 +1,4 @@
 interface CartItemQuantityProps{
-    productID: string,
     quantity: number
     onPlus: () => void
     onMinus: () => void
@@ -9,9 +8,7 @@ const CartItemQuantity: React.FC<CartItemQuantityProps> = ({quantity, onPlus, on
     return(
         <>
             <div>
-                <button onClick={onMinus}> - </button>
-                    <p> {quantity} </p>
-                <button onClick={onPlus}> + </button>
+                <button className="cursor-pointer" onClick={onMinus}> - </button>  <span> {quantity} </span> <button className="cursor-pointer" onClick={onPlus}> + </button>
             </div>
         </>
     )

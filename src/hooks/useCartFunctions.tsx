@@ -7,6 +7,7 @@ export const useCartFunctions = () =>{
     const dispatch = useAppDispatch();
 
     const items = useAppSelector(state=>state.cart.items)
+    const discount = useAppSelector(state => state.cart.discount)
     const total = useAppSelector(state=>state.cart.total)
 
     const addItem = (product:Product) => {
@@ -29,7 +30,7 @@ export const useCartFunctions = () =>{
 
     return {
         //State
-        items, total, totalItems,
+        items, total, totalItems, discount,
         //Actions 
         addItem,
         removeItem,

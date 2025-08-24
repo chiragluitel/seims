@@ -1,10 +1,14 @@
+import { GST } from "../../../constants";
+import { useCartFunctions } from "../../../hooks/useCartFunctions"
+
 const PriceDetail = () =>{
+    const {total, discount } = useCartFunctions();
     return (
         <>
             <div>
-                <h1> Subtotal: </h1>
-                <h1> GST: </h1>
-                <h1> Promotions: </h1>
+                <h1> Subtotal: ${total} </h1>
+                <h1> GST: {GST}% </h1>
+                <h1> Promotions: {discount} </h1>
             </div>
 
 
