@@ -1,52 +1,23 @@
-import {useRef, useEffect, useState} from 'react'
-const Video = () => {
-    
-    const videoRef = useRef<HTMLVideoElement> (null);
-    const [videoON, setVideoOn] = useState<boolean> (false);
+//Needs rework
 
+import {useRef, useState} from 'react'
+import useVideoStream from '../hooks/visuals/useVideoStream';
+const Video = () => {
+    const [videoON, setVideoOn] = useState<boolean> (false);    
     const handleOnOff = () => {
         setVideoOn(!videoON);
     }
-    useEffect (()=> {
-        const showVideo = async () => {
-            try{
-                const stream = await navigator.mediaDevices.getUserMedia({video:true});
-                
-                if(videoRef.current){
-                    videoRef.current.srcObject = stream;
-                    videoRef.current.play();
-                }
+    const {videoLoading, videosStream} = useVideoStream(videoON)
 
-            }catch(error:any){
-                console.log("Error occured when getting webcam stream: ", error)
-            }
-        }
-
-        const stopVideo = () => { 
-            const stream = videoRef.current?.srcObject;
-
-            if(stream instanceof MediaStream){
-                const tracks = stream.getTracks();
-                tracks.forEach(track => { track.stop() });
-            }
-            if(videoRef.current){
-                videoRef.current.srcObject = null;
-            }
-        }
-
-        if(videoON){
-            showVideo();
-        }else{
-            stopVideo();
-        }
-
-    })
-
+    const videoRef = useRef<HTMLVideoElement | null> (null);
+    if (videoRef.current && !videoLoading){
+        videoRef.current.srcObject = videosStream
+    }
     return (
         <>
             <div>
-                <button onClick={() => handleOnOff()} > Click to See Video </button>
-                <video ref={videoRef} />
+                <button className='cursor-pointer' onClick={() => handleOnOff()} > Click to See Video </button>
+                {videoLoading ? (<div> loading </div>):(<video ref={videoRef} />)  }
             </div>
         </>
     )
