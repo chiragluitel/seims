@@ -4,6 +4,7 @@ import Four0Four from "./pages/404Error";
 import WidgetsPage from "./pages/WidgetsPage";
 import Navbar from "./components/navbar/navbar";
 import HomePage from "./pages/HomePage";
+import CheckoutBar from "./components/Checkout/CheckoutBar";
 
 const routes: RouteObject[] = [
     {
@@ -11,13 +12,12 @@ const routes: RouteObject[] = [
         element:
         (  
             <>
-                <div className="grid grid-cols-[auto_1fr] h-screen">
+                <div className="grid grid-cols-[auto_1fr_400px] h-screen w-screen overflow-hidden">
                     <Navbar />
-                <div className="p-4">
-                    <Outlet />
-                </div>
-                    
-
+                    <div className="p-4 overflow-y-auto">
+                        <Outlet />
+                    </div>
+                    <CheckoutBar />
                 </div>
             </> 
             
