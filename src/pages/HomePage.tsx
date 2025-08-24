@@ -1,7 +1,7 @@
 import Greeting from "../components/Greeting";
 import Video from "../components/Video";
 
-const LandingPage = ()=>{
+const HomePage = ()=>{
     return (
         <>
            <div className="align-center mt-10">
@@ -12,4 +12,4 @@ const LandingPage = ()=>{
     )
 }
 
-export default LandingPage;
+export default HomePage;
