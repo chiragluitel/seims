@@ -20,7 +20,6 @@ const routes: RouteObject[] = [
                     <CheckoutBar />
                 </div>
             </> 
-            
         ),
         children: [
             {

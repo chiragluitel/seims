@@ -1,8 +1,20 @@
 import ProductCards from "../ProductCards";
 import ScrollableBox from "../ListItems/ScrollableBox";
 import { products } from "../../mocked_DB/Products";
+import type { Product } from "../../types";
+import { useCartFunctions } from "../../hooks/useCartFunctions";
 
 const QuickSelect = () => {
+    const {addItem} = useCartFunctions();
+
+    const handleProductClick = (product: Product)=>{
+        try{
+        addItem(product)
+        }catch(error:any){
+            console.error('Error Occured when adding to cart')
+        }
+    }
+    
     return (
     <>
         <div>
@@ -10,7 +22,7 @@ const QuickSelect = () => {
             <div className="h-auto w-auto">
             <ScrollableBox>
                 {products.map((product) => (
-                    <ProductCards key={product.id} name={product.name} image={product.image}/>
+                    <ProductCards key={product.ID} product={product} onClick={handleProductClick} />
                 ))}
             </ScrollableBox>
             </div>
