@@ -8,7 +8,7 @@ const initialState: CartState = {
 }
 
 const calculateTotal = (items: CartItem[]): number => {
-    return items.reduce((total, item) => total + item.Price * item.quantity, 0);
+    return items.reduce((total, item) => total + item.price * item.quantity, 0);
   };
   
 export const cartSlice = createSlice({
@@ -18,7 +18,7 @@ export const cartSlice = createSlice({
         addToCart: (state, action:PayloadAction<Product>) => {
             const productToAdd = action.payload;
 
-            const existingItem = state.items.find(item => item.ID == productToAdd.ID);
+            const existingItem = state.items.find(item => item.id == productToAdd.id);
 
             if(existingItem){
                 existingItem.quantity += 1;
@@ -30,19 +30,19 @@ export const cartSlice = createSlice({
 
         removeFromCart: (state, action: PayloadAction<string>) => {
             const idToRemove = action.payload;
-            state.items = state.items.filter(item => item.ID !== idToRemove);
+            state.items = state.items.filter(item => item.id !== idToRemove);
             state.total = calculateTotal(state.items);
         },
 
         updateQuantity: (state, action: PayloadAction<{ id: string, quantity: number }>) => {
             const { id, quantity } = action.payload;
-            const itemToUpdate = state.items.find(item => item.ID === id);
+            const itemToUpdate = state.items.find(item => item.id === id);
       
             if (itemToUpdate && quantity > 0) {
               itemToUpdate.quantity = quantity;
             } else if (itemToUpdate && quantity === 0) {
-              // Optional: Remove item if quantity becomes 0
-              state.items = state.items.filter(item => item.ID !== id);
+              // TODO: Fix 0 bug
+              state.items = state.items.filter(item => item.id !== id);
             }
       
             state.total = calculateTotal(state.items);
