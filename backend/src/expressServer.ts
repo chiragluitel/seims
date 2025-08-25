@@ -3,11 +3,13 @@ import dotenv from "dotenv";
 import {createServer} from 'http'
 import productRouter from './routes/productRoutes';
 import {establishConnectionToDB} from './database'
+import cors from "cors";
 
 dotenv.config();
 const app = express();
 
 const port = Number(process.env.PORT);
+app.use(cors());
 
 app.get('/', (req: Request, res: Response) => {
     res.send('Welcome to SEIMS');
