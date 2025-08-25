@@ -3,7 +3,8 @@ export type BoundingBox = [number, [number, number, number, number], number]
 export interface Product {
     ID: string,
     Name: string,
-    Price: number
+    Price: number,
+    image: string
 }
 
 export interface CartItem extends Product {

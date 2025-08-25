@@ -1,26 +1,25 @@
 import React from 'react';
+import type { Product } from '../types';
 interface ProductCardsProps {
-    image: string;
-    name: string;
-    price?: number;
-    onClick?: () => void;
+    product: Product
+    onClick: (product: Product) => void;
 }
 
-const ProductCards: React.FC<ProductCardsProps> = ({ image, name, price, onClick }) => {
+const ProductCards: React.FC<ProductCardsProps> = ({ product, onClick }) => {
     return (
         <div
-            onClick={onClick}
             className="w-48 rounded-lg shadow-md overflow-hidden cursor-pointer transition-transform hover:scale-105 bg-white"
+            onClick={ ()=>onClick(product) }
         >
             <img
-                src={image}
-                alt={name}
+                src={product.image}
+                alt={product.Name}
                 className="w-full h-24 object-cover"
             />
             <div className="p-3">
-                <h2 className="text-gray-800 font-semibold text-md truncate">{name}</h2>
-                {price !== undefined && (
-                    <p className="text-sm text-gray-600 mt-1">${price.toFixed(2)}</p>
+                <h2 className="text-gray-800 font-semibold text-md truncate">{product.Name}</h2>
+                {product.Price !== undefined && (
+                    <p className="text-sm text-gray-600 mt-1">${(product.Price).toFixed(2)}</p>
                 )}
             </div>
         </div>
