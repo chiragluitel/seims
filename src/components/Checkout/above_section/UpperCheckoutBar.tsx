@@ -1,3 +1,4 @@
+//To Add - Auto Scroller for overflowing cart items
 import { useCartFunctions } from "../../../hooks/useCartFunctions";
 import CartItemDetail from "./CartItemDetail";
 
