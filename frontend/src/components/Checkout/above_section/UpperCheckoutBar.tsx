@@ -11,10 +11,11 @@ const UpperCheckoutBar = () => {
                 {items.length > 0 ? (
                     items.map((item) => (
                         <CartItemDetail
-                            key={item.ID}
-                            id={item.ID}
-                            name={item.Name}
-                            price={item.Price}
+                            key={item.id}
+                            id={item.id}
+                            name={item.name}
+                            price={item.price}
+                            image={item.image}
                             quantity={item.quantity}
                         />
                     ))

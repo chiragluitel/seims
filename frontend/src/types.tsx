@@ -1,9 +1,9 @@
 export type BoundingBox = [number, [number, number, number, number], number]
 
 export interface Product {
-    ID: string,
-    Name: string,
-    Price: number,
+    id: string,
+    name: string,
+    price: number,
     image: string
 }
 
