@@ -6,23 +6,22 @@ import {establishConnectionToDB} from './database'
 import cors from "cors";
 
 dotenv.config();
-const app = express();
+const seimsExpressServer = express();
 
 const port = Number(process.env.PORT);
-app.use(cors());
+seimsExpressServer.use(cors());
 
-app.get('/', (req: Request, res: Response) => {
+seimsExpressServer.get('/', (req: Request, res: Response) => {
     res.send('Welcome to SEIMS');
 })
 
-app.use('/products', productRouter)
-const httpServer = createServer(app);
+seimsExpressServer.use('/products', productRouter)
+const httpServer = createServer(seimsExpressServer);
 
 async function startServer(){
     try{
         await establishConnectionToDB();
         httpServer.listen(port, "0.0.0.0", ()=>{console.log('Server Started at', port)})
-
     }catch(error:any){
         console.error('Error starting server', error)
     }
