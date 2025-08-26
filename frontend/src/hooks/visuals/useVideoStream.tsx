@@ -11,13 +11,14 @@ const useVideoStream = (isVideoOn: boolean) =>{
         try{
             const stream = await navigator.mediaDevices.getUserMedia({video:true});
             if(videoRef.current){
+                console.log('Video Ref Current')
                 videoRef.current.srcObject = stream;
                 videoRef.current.play();
-                setVideoStream(stream);
             }
         }catch(error:any){
-            setVideoLoading(false)
             console.error("Unable to get user media: Video. Error Message: ", error)
+        }finally{
+            setVideoLoading(false);
         }
     } 
 
@@ -33,6 +34,7 @@ const useVideoStream = (isVideoOn: boolean) =>{
             if(videoRef.current){
                 videoRef.current.srcObject = null;
             }
+            setVideoStream(null)
         }catch(error:any){
             console.error("Unable to stop user media: Video. Error Message: ", error);
         }
@@ -43,10 +45,11 @@ const useVideoStream = (isVideoOn: boolean) =>{
             startVideo();
         }else{
             stopVideo();
+            return () => stopVideo()
         }
     }, [isVideoOn])
 
-    return {videosStream, videoLoading}
+    return {videoRef, videosStream, videoLoading}
 }
 
 export default useVideoStream;

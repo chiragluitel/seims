@@ -1,8 +1,10 @@
+import Video from "../components/Video"
+
 const WidgetsPage = () => {
     return (
         <>
             <div className="">
-                Widgets Page
+                <Video />
             </div>
         </>
     )
