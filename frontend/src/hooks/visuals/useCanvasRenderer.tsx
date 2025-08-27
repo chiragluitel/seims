@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef } from "react";
-type BoundingBox = [number, [number, number, number, number], string]
+import type { DetectionResults } from "../../types";
 
-const useCanvasRenderer = (videoRef: React.RefObject<HTMLVideoElement>, canvasRef: React.RefObject<HTMLCanvasElement>, data:BoundingBox[] | null) => {
+const useCanvasRenderer = (videoRef: React.RefObject<HTMLVideoElement | null>, canvasRef: React.RefObject<HTMLCanvasElement | null>, data:DetectionResults[] | null) => {
     const animationFrameId = useRef<number | null> (null);
 
     const draw = useCallback(()=>{
@@ -18,7 +18,8 @@ const useCanvasRenderer = (videoRef: React.RefObject<HTMLVideoElement>, canvasRe
             console.error("2D Context Not Available")
             return
         }
-
+        
+        context.drawImage(video, 0, 0, canvas.width, canvas.height);
         if (data){
             data.forEach(box => {
                 const [id, [x1, y1, x2, y2], label] = box;
@@ -27,15 +28,19 @@ const useCanvasRenderer = (videoRef: React.RefObject<HTMLVideoElement>, canvasRe
 
                 context.beginPath();
                 context.lineWidth = 2;
-                context.strokeStyle = "Red";
+                context.strokeStyle = "#4F46E5";
                 context.rect(x1, y1, width, height);
                 context.stroke();
 
-                context.font = "16px Arial";
-                context.fillStyle = "white";
-                const textMetrics = context.measureText(`Id: ${id} | ${label}`);
+                context.font = "14px Inter, Arial";
+                context.fillStyle = "#4F46E5";
+                const text = `${label} (ID: ${id})`;
+                const textMetrics = context.measureText(text);
+
                 context.fillRect(x1, y1 - 20, textMetrics.width + 10, 20);
-                context.fillText(`ID: ${id} | ${label}`, x1 + 5, y1 - 5 );
+                
+                context.fillStyle = "white";
+                context.fillText(text, x1 + 5, y1 - 5 );
             })
         }
         animationFrameId.current = requestAnimationFrame(draw);

@@ -1,4 +1,10 @@
-export type BoundingBox = [number, [number, number, number, number], number]
+                            //   ID,    [Bounding Box Coordinates XYXY], Lable
+export type DetectionResults = [number, [number, number, number, number], string]
+                              //ID  , Label
+export interface DetectedObject{
+    id: number,
+    label: string
+}
 
 export interface Product {
     id: string,

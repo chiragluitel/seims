@@ -1,9 +1,9 @@
-import QuickSelect from "../components/homepage/QuickSelect";
+import QuickSelect from "../components/homepage/QuickSelect"
 
 const HomePage = ()=>{
     return (
         <>  
-        <QuickSelect />
+        <QuickSelect />        
         </>
     )
 }
