@@ -25,10 +25,8 @@ async def websocket_endpoint (websocket: WebSocket):
     try:
         while True:
             data_stream = await websocket.receive_text()
-            print(f'Data Stream recieved: {data_stream}')
 
             data = json.loads(data_stream)
-            print(f'Data Stream JSON loaded to data: {data}')
             base64_image = data.get('image')
 
             if not base64_image:
@@ -48,7 +46,6 @@ async def websocket_endpoint (websocket: WebSocket):
             tracked_objects = tracker.track(detections, frame)
             end_time = time.perf_counter()
             fps = 1/ (end_time - start_time)
-            print(f'FPS: {fps}')
             tracking_results_to_return = []
 
             for tracking_id, bounding_box, label in tracked_objects:
