@@ -1,3 +1,4 @@
+//To Fix: Pausing of Video doesn't turn off cam
 import { useState} from 'react';
 import useVideoStream from '../hooks/visuals/useVideoStream'; // Using solid icons for better visibility
 import { FiPause, FiPlay, FiWifiOff } from 'react-icons/fi';
@@ -11,7 +12,6 @@ const Video = () => {
     const handleOnOff = () => {
         setVideoOn(!videoON);
     };
-
 
     return (
         <div className="relative bg-gray-100 rounded-md shadow-sm overflow-hidden">

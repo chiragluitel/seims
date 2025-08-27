@@ -34,8 +34,8 @@ class YoloDetector:
             print(f"\n--------------------Each box's class_number- within box.cls attribute: ${class_number}--------------------\n")
             print(f"\n--------------------Box's class_number used in result.names[class_number]. Should be the name: ${result.names[class_number]}--------------------\n")
             #14. Of THAT box's result, extract the class name using result.names[class_number] and check if it is in our interested list of classes. If not, break loop and continue. 
-            if result.names[class_number] not in self.classList:
-                continue
+            # if result.names[class_number] not in self.classList:
+            #     continue
 
             #15. Extract the confidence of that class prediction as well.
             box_confidence = box.conf[0]

@@ -1,10 +1,11 @@
-import Video from "../components/Video"
+import ObjectTracker from "../components/objectDetection/objectTracker"
 
 const WidgetsPage = () => {
     return (
         <>
             <div className="">
-                <Video />
+                {/* <ObjectDetector /> */}
+                <ObjectTracker />
             </div>
         </>
     )
