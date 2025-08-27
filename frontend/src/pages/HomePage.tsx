@@ -1,9 +1,14 @@
 import QuickSelect from "../components/homepage/QuickSelect"
+import SmartCheckout from "../components/widgets/smartCheckout";
 
 const HomePage = ()=>{
     return (
         <>  
-        <QuickSelect />        
+        <div className="overflow-hidden">
+            <QuickSelect />        
+            <SmartCheckout />
+        </div>
+        
         </>
     )
 }

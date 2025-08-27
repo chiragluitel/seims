@@ -18,7 +18,6 @@ const useWebSocket = (url: string, hasTrigerred: boolean) => {
             ws.onmessage = (event) =>{
                 const parsedData = JSON.parse(event.data);
                 setData(parsedData);
-                console.log('parsed data:', parsedData)
             }
             
             ws.onclose = ( ) =>{

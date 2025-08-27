@@ -13,7 +13,6 @@ const useListAllProducts = () => {
                 setIsLoading(true);
                 const result = await fetch(`${import.meta.env.VITE_PRODUCTS_BASE_URL}/getAllProducts`)
                 const data = await result.json();
-                console.log(data)
                 setProducts(data)
             }catch(error:any){
                 setError(error);
