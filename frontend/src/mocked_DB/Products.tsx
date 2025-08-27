@@ -2,123 +2,123 @@ import type { Product } from "../types";
 
 export const products: Product[] = [
   {
-    "ID": "Nepstrading_WW",
-    "Name": "Wai Wai",
-    "Price": 10,
+    "id": "Nepstrading_WW",
+    "name": "Wai Wai",
+    "price": 10,
     "image": "logoexample.jpg"
   },
   {
-    "ID": "Nepstrading_TP",
-    "Name": "Thangka Painting",
-    "Price": 5000,
+    "id": "Nepstrading_TP",
+    "name": "Thangka Painting",
+    "price": 5000,
     "image": "logoexample.jpg"
   },
   {
-    "ID": "Nepstrading_PS",
-    "Name": "Pashmina Shawl",
-    "Price": 3500,
+    "id": "Nepstrading_PS",
+    "name": "Pashmina Shawl",
+    "price": 3500,
     "image": "logoexample.jpg"
   },
   {
-    "ID": "Nepstrading_KK",
-    "Name": "Khukuri Knife",
-    "Price": 2500,
+    "id": "Nepstrading_KK",
+    "name": "Khukuri Knife",
+    "price": 2500,
     "image": "logoexample.jpg"
   },
   {
-    "ID": "Nepstrading_SB",
-    "Name": "Singing Bowl",
-    "Price": 1800,
+    "id": "Nepstrading_SB",
+    "name": "Singing Bowl",
+    "price": 1800,
     "image": "logoexample.jpg"
   },
   {
-    "ID": "Nepstrading_LP",
-    "Name": "Lokta Paper Journal",
-    "Price": 600,
+    "id": "Nepstrading_LP",
+    "name": "Lokta Paper Journal",
+    "price": 600,
     "image": "logoexample.jpg"
   },
   {
-    "ID": "Nepstrading_HP",
-    "Name": "Hemp Backpack",
-    "Price": 1200,
+    "id": "Nepstrading_HP",
+    "name": "Hemp Backpack",
+    "price": 1200,
     "image": "logoexample.jpg"
   },
   {
-    "ID": "Nepstrading_SM",
-    "Name": "Statue of Manjushri",
-    "Price": 4500,
+    "id": "Nepstrading_SM",
+    "name": "Statue of Manjushri",
+    "price": 4500,
     "image": "logoexample.jpg"
   },
   {
-    "ID": "Nepstrading_TF",
-    "Name": "Tibetan Prayer Flags",
-    "Price": 300,
+    "id": "Nepstrading_TF",
+    "name": "Tibetan Prayer Flags",
+    "price": 300,
     "image": "logoexample.jpg"
   },
   {
-    "ID": "Nepstrading_NJ",
-    "Name": "Nepali Silver Jewelry",
-    "Price": 2200,
+    "id": "Nepstrading_NJ",
+    "name": "Nepali Silver Jewelry",
+    "price": 2200,
     "image": "logoexample.jpg"
   },
   {
-    "ID": "Nepstrading_DC",
-    "Name": "Dhaka Cap",
-    "Price": 500,
+    "id": "Nepstrading_DC",
+    "name": "Dhaka Cap",
+    "price": 500,
     "image": "logoexample.jpg"
   },
   {
-    "ID": "Nepstrading_CP",
-    "Name": "Clay Pot",
-    "Price": 400,
+    "id": "Nepstrading_CP",
+    "name": "Clay Pot",
+    "price": 400,
     "image": "logoexample.jpg"
   },
   {
-    "ID": "Nepstrading_WC",
-    "Name": "Wooden Carving Frame",
-    "Price": 3000,
+    "id": "Nepstrading_WC",
+    "name": "Wooden Carving Frame",
+    "price": 3000,
     "image": "logoexample.jpg"
   },
   {
-    "ID": "Nepstrading_HH",
-    "Name": "Himalayan Honey",
-    "Price": 1500,
+    "id": "Nepstrading_HH",
+    "name": "Himalayan Honey",
+    "price": 1500,
     "image": "logoexample.jpg"
   },
   {
-    "ID": "Nepstrading_FT",
-    "Name": "Felt Toys",
-    "Price": 800,
+    "id": "Nepstrading_FT",
+    "name": "Felt Toys",
+    "price": 800,
     "image": "logoexample.jpg"
   },
   {
-    "ID": "Nepstrading_MP",
-    "Name": "Metal Prayer Wheel",
-    "Price": 2000,
+    "id": "Nepstrading_MP",
+    "name": "Metal Prayer Wheel",
+    "price": 2000,
     "image": "logoexample.jpg"
   },
   {
-    "ID": "Nepstrading_NM",
-    "Name": "Nepali Mask",
-    "Price": 1800,
+    "id": "Nepstrading_NM",
+    "name": "Nepali Mask",
+    "price": 1800,
     "image": "logoexample.jpg"
   },
   {
-    "ID": "Nepstrading_DB",
-    "Name": "Dhaka Bag",
-    "Price": 1000,
+    "id": "Nepstrading_DB",
+    "name": "Dhaka Bag",
+    "price": 1000,
     "image": "logoexample.jpg"
   },
   {
-    "ID": "Nepstrading_HS",
-    "Name": "Hemp Shoes",
-    "Price": 1600,
+    "id": "Nepstrading_HS",
+    "name": "Hemp Shoes",
+    "price": 1600,
     "image": "logoexample.jpg"
   },
   {
-    "ID": "Nepstrading_LG",
-    "Name": "Lokta Gift Box",
-    "Price": 700,
+    "id": "Nepstrading_LG",
+    "name": "Lokta Gift Box",
+    "price": 700,
     "image": "logoexample.jpg"
   }
 ]
