@@ -1,12 +1,12 @@
 import QuickSelect from "../components/homepage/QuickSelect"
-import SmartCheckout from "../components/widgets/smartCheckout";
+import WidgetsComp from "../components/widgets/widgetsComp";
 
 const HomePage = ()=>{
     return (
         <>  
-        <div className="overflow-hidden">
+        <div className="grid grid-rows-[50%_1fr] h-full w-full overflow-hidden gap-15  p-4">
             <QuickSelect />        
-            <SmartCheckout />
+            <WidgetsComp />
         </div>
         
         </>

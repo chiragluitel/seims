@@ -1,4 +1,3 @@
-//Needs Refactoring
 import { useEffect, useRef, useState } from "react";
 import useWebSocket from "../../hooks/websockets/useWebSocket";
 import useVideoStream from "../../hooks/visuals/useVideoStream";
@@ -9,17 +8,17 @@ import type { DetectedObject, DetectionResults } from "../../types";
 import { useCartFunctions } from "../../hooks/useCartFunctions";
 import { products } from "../../mocked_DB/Products";
 
-const SmartTracker = () => {
+const SmartCheckout = () => {
     const [isVideoOn, setIsVideoOn] = useState(false);
     const canvasRefToSend = useRef<HTMLCanvasElement | null>(null)
     const addedObjectIDsRef = useRef(new Set<number>());
-    
+
     const { socket, data, isReady } = useWebSocket('ws://localhost:8000/ws', isVideoOn);
-    const {videoRef} = useVideoStream(isVideoOn);
+    const {videoRef, videoLoading} = useVideoStream(isVideoOn);
     const {addItem} = useCartFunctions()
     useFrameSender(videoRef, isReady, socket, isVideoOn);
     useCanvasRenderer(videoRef, canvasRefToSend, data)
-    
+
     const handleClick = () =>{
         setIsVideoOn(!isVideoOn)
     }
@@ -56,11 +55,11 @@ const SmartTracker = () => {
     }, [data])
 
     return (
-      <>
-      <div>
+      <div className="rounded-md shadow-sm overflow-hidden p-4 relative">
+        <h1 className="text-2xl font-bold mb-3 text-gray-800"> Smart Checkout </h1>
         <button
                 onClick={handleClick}
-                className="bg-white bg-opacity-70 hover:bg-opacity-90 text-gray-700 rounded-full p-1 shadow-md transition-colors"
+                className="absolute top-2 right-2 z-10 bg-white bg-opacity-70 hover:bg-opacity-90 text-gray-700 rounded-full p-1 shadow-md transition-colors"
             >
                 {isVideoOn ? (
                     <FiPause className="h-5 w-5" />
@@ -68,41 +67,26 @@ const SmartTracker = () => {
                     <FiPlay className="h-5 w-5" />
                 )}
         </button>
-        {!isVideoOn && (
-                <div className="w-164 h-120 inset-0 flex flex-col items-center justify-center bg-gray-200 bg-opacity-75 text-gray-600">
-                    <FiWifiOff className="h-12 w-12 mb-2" />
+        {(!isVideoOn ||  videoLoading) && (
+                <div className="w-full aspect-video flex flex-col items-center justify-center bg-gray-200 bg-opacity-75 text-gray-600">
+                    <FiWifiOff className="h-50 w-150 mb-2" />
                     <p className="text-sm">Video Off</p>
                 </div>
         )}
-      </div>
-        <div className="absolute bg-gray-100 rounded-md shadow-sm overflow-hidden">
-            <canvas 
-            ref={canvasRefToSend}
-            style={{display: 'block'}}
+        <div className="w-full aspect-video">
+            <canvas
+                ref={canvasRefToSend}
+                className="w-full h-full"
+                style={{display: isVideoOn ? 'block' : 'none'}}
             />
             <video
                 ref={videoRef}
-                className={`w-full h-auto aspect-video`}
-                style={{ display: 'none' }}
+                className="w-full h-full"
+                style={{ display: isVideoOn ? 'none' : 'none' }}
             />
         </div>
-        {/* <div className="mt-4 text-lg font-semibold text-gray-800 text-center">
-          <h2> Objects Detected: </h2>
-                {detectedObject.length > 0 ? (
-                  <ul className="mt-2 list-disc list-inside space-y-1 text-center text-gray-600" >
-                    {detectedObject.map((object)=>(
-                      <li key={object.id} className="flex items-center">
-                        <span className="font-bold text-blue-600 text-centre"> {object.label} | ID: {object.id} </span>
-                      </li>
-                    ))}
-                  </ul>
-                ) : (
-                  <p> None </p>
-                )}
-        </div> */}
-      </>
+      </div>
     );
   };
-  
-  export default SmartTracker;
-  
+
+  export default SmartCheckout;
