@@ -1,12 +1,14 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import useWebSocket from "../../hooks/websockets/useWebSocket";
 import useVideoStream from "../../hooks/visuals/useVideoStream";
 import useFrameSender from "../../hooks/visuals/useFrameSender";
-import { FiPause, FiPlay, FiWifiOff } from "react-icons/fi";
 import { type DetectedObject, type DetectionResults } from "../../types";
+import VideoOff from "../loaders/videoOff";
+import VideoPausePlay from "../buttons/videoPausePlay";
 
 
 const ObjectDetector = () => {
+    const videoRef = useRef<HTMLVideoElement | null>(null)
     const [isVideoOn, setIsVideoOn] = useState(false);
   
     const handleClick = () =>{
@@ -14,7 +16,7 @@ const ObjectDetector = () => {
       console.log('Button Clicked')
     }
     const { socket, data, isReady } = useWebSocket('ws://localhost:8000/ws', isVideoOn);
-    const {videoRef } = useVideoStream(isVideoOn);
+    const {videoLoading } = useVideoStream(videoRef, isVideoOn);
     useFrameSender(videoRef, isReady, socket, isVideoOn);
     
     const [detectedObject, setDetectedObject] = useState<DetectedObject[]>([])
@@ -41,11 +43,8 @@ const ObjectDetector = () => {
     return (
       <>
         <div className="relative bg-gray-100 rounded-md shadow-sm overflow-hidden">
-            {!isVideoOn && (
-                <div className="absolute inset-0 flex flex-col items-center justify-center bg-gray-200 bg-opacity-75 text-gray-600">
-                    <FiWifiOff className="h-12 w-12 mb-2" />
-                    <p className="text-sm">Video Off</p>
-                </div>
+            {!isVideoOn || videoLoading && (
+              <VideoOff />
             )}
             <video
                 ref={videoRef}
@@ -56,17 +55,13 @@ const ObjectDetector = () => {
                 onClick={handleClick}
                 className="absolute top-2 left-2 bg-white bg-opacity-70 hover:bg-opacity-90 text-gray-700 rounded-full p-1 shadow-md transition-colors"
             >
-                {isVideoOn ? (
-                    <FiPause className="h-5 w-5" />
-                ) : (
-                    <FiPlay className="h-5 w-5" />
-                )}
+              <VideoPausePlay isVideoOn={isVideoOn} />
             </button>
         </div>
-        <div className="mt-4 text-lg font-semibold text-gray-800 text-center">
+        <div className="mt-4 text-lg font-semibold text-gray-800">
           <h2> Objects Detected: </h2>
                 {detectedObject.length > 0 ? (
-                  <ul className="mt-2 list-disc list-inside space-y-1 text-center text-gray-600" >
+                  <ul className="mt-2 list-disc list-inside space-y-1 text-gray-600" >
                     {detectedObject.map((object)=>(
                       <li key={object.id} className="flex items-center text-center">
                         <span className="font-bold text-blue-600 text-center"> {object.label} | ID: {object.id} </span>

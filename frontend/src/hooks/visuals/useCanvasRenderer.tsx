@@ -55,6 +55,4 @@ const useCanvasRenderer = (videoRef: React.RefObject<HTMLVideoElement | null>, c
     }, [draw])
 }
 
-
-
 export default useCanvasRenderer
