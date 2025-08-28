@@ -2,22 +2,24 @@ import { useEffect, useRef, useState } from "react";
 import useWebSocket from "../../hooks/websockets/useWebSocket";
 import useVideoStream from "../../hooks/visuals/useVideoStream";
 import useFrameSender from "../../hooks/visuals/useFrameSender";
-import { FiPause, FiPlay, FiWifiOff } from "react-icons/fi";
 import useCanvasRenderer from "../../hooks/visuals/useCanvasRenderer";
 import type { DetectedObject, DetectionResults } from "../../types";
 import { useCartFunctions } from "../../hooks/useCartFunctions";
 import { products } from "../../mocked_DB/Products";
+import VideoOff from "../loaders/videoOff";
+import VideoPausePlay from "../buttons/videoPausePlay";
 
 const SmartCheckout = () => {
     const [isVideoOn, setIsVideoOn] = useState(false);
     const canvasRefToSend = useRef<HTMLCanvasElement | null>(null)
+    const videoRefToSend = useRef<HTMLVideoElement | null> (null)
     const addedObjectIDsRef = useRef(new Set<number>());
 
     const { socket, data, isReady } = useWebSocket('ws://localhost:8000/ws', isVideoOn);
-    const {videoRef, videoLoading} = useVideoStream(isVideoOn);
+    const {videoLoading} = useVideoStream(videoRefToSend, isVideoOn);
     const {addItem} = useCartFunctions()
-    useFrameSender(videoRef, isReady, socket, isVideoOn);
-    useCanvasRenderer(videoRef, canvasRefToSend, data)
+    useFrameSender(videoRefToSend, isReady, socket, isVideoOn);
+    useCanvasRenderer(videoRefToSend, canvasRefToSend, data)
 
     const handleClick = () =>{
         setIsVideoOn(!isVideoOn)
@@ -33,7 +35,7 @@ const SmartCheckout = () => {
         const label = object[2]
         detectedObjectsMap.set(id, { id, label });
       })
-
+        //implement a hook here to pass object ID that adds it to cart.
         detectedObjectsMap.forEach((object)=>
         {
             if(!addedObjectIDsRef.current.has(object.id)){
@@ -57,21 +59,13 @@ const SmartCheckout = () => {
     return (
       <div className="rounded-md shadow-sm overflow-hidden p-4 relative">
         <h1 className="text-2xl font-bold mb-3 text-gray-800"> Smart Checkout </h1>
-        <button
-                onClick={handleClick}
-                className="absolute top-2 right-2 z-10 bg-white bg-opacity-70 hover:bg-opacity-90 text-gray-700 rounded-full p-1 shadow-md transition-colors"
-            >
-                {isVideoOn ? (
-                    <FiPause className="h-5 w-5" />
-                ) : (
-                    <FiPlay className="h-5 w-5" />
-                )}
+        <button onClick={handleClick} 
+        className="absolute top-2 right-2 z-10 bg-white bg-opacity-70 hover:bg-opacity-90 text-gray-700 rounded-full p-1 shadow-md transition-colors"
+        >
+            <VideoPausePlay isVideoOn={isVideoOn} />
         </button>
         {(!isVideoOn ||  videoLoading) && (
-                <div className="w-full aspect-video flex flex-col items-center justify-center bg-gray-200 bg-opacity-75 text-gray-600">
-                    <FiWifiOff className="h-50 w-150 mb-2" />
-                    <p className="text-sm">Video Off</p>
-                </div>
+            <VideoOff />
         )}
         <div className="w-full aspect-video">
             <canvas
@@ -80,7 +74,7 @@ const SmartCheckout = () => {
                 style={{display: isVideoOn ? 'block' : 'none'}}
             />
             <video
-                ref={videoRef}
+                ref={videoRefToSend}
                 className="w-full h-full"
                 style={{ display: isVideoOn ? 'none' : 'none' }}
             />

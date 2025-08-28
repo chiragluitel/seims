@@ -8,15 +8,15 @@ export const products: Product[] = [
     "image": "logoexample.jpg"
   },
   {
-    "id": "Nepstrading_TP",
-    "name": "Thangka Painting",
-    "price": 5000,
+    "id": "Nepstrading_TB",
+    "name": "Top Biscuit",
+    "price": 5,
     "image": "logoexample.jpg"
   },
   {
-    "id": "Nepstrading_PS",
-    "name": "Pashmina Shawl",
-    "price": 3500,
+    "id": "Nepstrading_CM",
+    "name": "Chana Mix",
+    "price": 25,
     "image": "logoexample.jpg"
   },
   {
