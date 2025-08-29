@@ -9,7 +9,7 @@ from pythonDetectors.yoloDetector import YoloDetector
 from pythonDetectors.deepsortTracker import Tracker
 
 seimsPythonServer = FastAPI()
-MODEL_PATH = "yolo_models/best.pt"
+MODEL_PATH = "yolo_models/yolo11n.pt"
 detector = YoloDetector(MODEL_PATH, 0.7)
 tracker = Tracker()
 
