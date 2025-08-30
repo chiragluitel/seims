@@ -13,19 +13,20 @@ const OptionCard: React.FC<optionCardProps> = ({ label, navigateTo, icon }) => {
             flex flex-col items-center justify-center
             p-6 m-2
             border border-black
-            bg-gray-900
+            bg-white
             rounded-2xl
             shadow-lg hover:shadow-2xl
             transition-all duration-300 ease-in-out
             transform hover:-translate-y-1
             cursor-pointer
-            text-white
+            text-black
             w-full h-full
             min-h-[150px]
             text-center
             font-inter
+            font-2xl
         ">
-            <div className=" text-4xl text-green-500 mb-4 ">
+            <div className=" text-6xl text-green-500 mb-4 ">
                 {icon}
             </div>
             <div className="text-lg font-semibold">
