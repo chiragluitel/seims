@@ -7,6 +7,8 @@ import HomePage from "./pages/HomePage";
 import CheckoutBar from "./components/Checkout/CheckoutBar";
 import WMS from "./pages/WMS";
 import NewProductRegistration from "./pages/Admin/NewProductRegistration";
+import UpdateExistingProducts from "./pages/Admin/UpdateExistingProducts";
+import UpdateExistingProductUpdateScreen from "./pages/Admin/UpdateExistingProductUpdateScreen";
 
 const routes: RouteObject[] = [
     {
@@ -43,6 +45,14 @@ const routes: RouteObject[] = [
             {
                 path: '/newproduct',
                 element: <NewProductRegistration />
+            },
+            {
+                path: '/updateproduct',
+                element: <UpdateExistingProducts />
+            },
+            {
+                path: '/updateproduct/:productID',
+                element: <UpdateExistingProductUpdateScreen />
             }
         ]
     },
