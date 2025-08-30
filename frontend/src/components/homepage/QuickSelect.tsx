@@ -1,4 +1,4 @@
-import ProductCards from "../ProductCards";
+import ProductCards from "../products/ProductCards";
 import ScrollableBox from "../ListItems/ScrollableBox";
 // import { products } from "../../mocked_DB/Products";
 import type { Product } from "../../types";

@@ -5,6 +5,8 @@ import WidgetsPage from "./pages/WidgetsPage";
 import Navbar from "./components/navbar/navbar";
 import HomePage from "./pages/HomePage";
 import CheckoutBar from "./components/Checkout/CheckoutBar";
+import WMS from "./pages/WMS";
+import NewProductRegistration from "./pages/Admin/NewProductRegistration";
 
 const routes: RouteObject[] = [
     {
@@ -33,6 +35,14 @@ const routes: RouteObject[] = [
             {
                 path:'/widgets',
                 element: <WidgetsPage />
+            },
+            {
+                path:'/configs',
+                element: <WMS />
+            },
+            {
+                path: '/newproduct',
+                element: <NewProductRegistration />
             }
         ]
     },

@@ -46,7 +46,7 @@ class Tracker:
     def get_label_from_detection(self, class_number):
     # Map class_number to class name
         class_names = [
-            "person", "chana_mix", "current", "top_biscuit", "waiwai"
+            "achaar", "chana_mix", "current", "top_biscuit", "waiwai"
         ] 
         if class_number < len(class_names):
             return class_names[class_number]
