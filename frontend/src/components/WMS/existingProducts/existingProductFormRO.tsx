@@ -1,12 +1,12 @@
 import { FiUpload } from "react-icons/fi";
 import type { Product } from "../../../types";
 
-interface ExistingProductFormProps {
+interface ExistingProductFormROProps {
   product: Product;
   onInputChange: (field: keyof Product, value: string | number) => void;
 }
 
-const ExistingProductForm: React.FC<ExistingProductFormProps> = ({ product, onInputChange }) => {
+const ExistingProductFormRO: React.FC<ExistingProductFormROProps> = ({ product, onInputChange }) => {
   const handleProductRegistration = (e: React.FormEvent) => {
     e.preventDefault();
     console.log("Product Added");
@@ -123,4 +123,4 @@ const ExistingProductForm: React.FC<ExistingProductFormProps> = ({ product, onIn
   );
 };
 
-export default ExistingProductForm;
+export default ExistingProductFormRO;
