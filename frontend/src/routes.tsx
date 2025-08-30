@@ -9,6 +9,7 @@ import WMS from "./pages/WMS";
 import NewProductRegistration from "./pages/Admin/NewProductRegistration";
 import UpdateExistingProducts from "./pages/Admin/UpdateExistingProducts";
 import UpdateExistingProductUpdateScreen from "./pages/Admin/UpdateExistingProductUpdateScreen";
+import StockReceive from "./pages/Admin/StockReceive";
 
 const routes: RouteObject[] = [
     {
@@ -18,7 +19,7 @@ const routes: RouteObject[] = [
             <>
                 <div className="grid grid-cols-[auto_1fr_400px] h-screen w-screen overflow-hidden">
                     <Navbar />
-                    <div className="p-4 overflow-y-auto">
+                    <div className="p-4 overflow-hidden">
                         <Outlet />
                     </div>
                     <CheckoutBar />
@@ -53,7 +54,11 @@ const routes: RouteObject[] = [
             {
                 path: '/updateproduct/:productID',
                 element: <UpdateExistingProductUpdateScreen />
-            }
+            },
+            {
+                path: '/receivestock',
+                element: <StockReceive />
+            },
         ]
     },
 
