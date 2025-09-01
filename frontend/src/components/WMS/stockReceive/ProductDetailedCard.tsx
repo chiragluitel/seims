@@ -8,7 +8,7 @@ const ProductDetailedCard: React.FC<ProductDetailedCardProps> = ({ product }) =>
     const isLowStock = product.price <= 5;
 
     return (
-        <div className="relative bg-gray-900 rounded-2xl p-8 shadow-2xl w-full max-w-3xl mx-auto text-white flex space-x-8">
+        <div className="relative bg-gray-900 rounded-2xl p-8 shadow-2xl text-white min-w-3xl flex space-x-8">
             <div
                 className={`absolute top-5 right-5 h-5 w-5 rounded-full ${
                     isLowStock ? "bg-red-500" : "bg-green-500"
@@ -41,19 +41,19 @@ const ProductDetailedCard: React.FC<ProductDetailedCardProps> = ({ product }) =>
                     </p>
                     <p>
                         <span className="font-semibold">Last Stock Received:</span>{" "}
-                        {product.lastReceived || "—"}
+                        {"—"}
                     </p>
                     <p>
                         <span className="font-semibold">Last Sold:</span>{" "}
-                        {product.lastSold || "—"}
+                        { "—"}
                     </p>
                     <p>
                         <span className="font-semibold">Earliest Expiry:</span>{" "}
-                        {product.expiryDate || "—"}
+                        {product.name || "—"}
                     </p>
                     <p>
                         <span className="font-semibold">Category:</span>{" "}
-                        {product.category || "—"}
+                        {"—"}
                     </p>
                 </div>
             </div>

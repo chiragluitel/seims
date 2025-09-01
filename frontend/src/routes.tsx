@@ -10,6 +10,7 @@ import NewProductRegistration from "./pages/Admin/NewProductRegistration";
 import UpdateExistingProducts from "./pages/Admin/UpdateExistingProducts";
 import UpdateExistingProductUpdateScreen from "./pages/Admin/UpdateExistingProductUpdateScreen";
 import StockReceive from "./pages/Admin/StockReceive";
+import NewUserRegistration from "./pages/Admin/NewUserRegistration";
 
 const routes: RouteObject[] = [
     {
@@ -58,6 +59,10 @@ const routes: RouteObject[] = [
             {
                 path: '/receivestock',
                 element: <StockReceive />
+            },
+            {
+                path: '/newuser',
+                element: <NewUserRegistration />
             },
         ]
     },
