@@ -13,7 +13,7 @@ const MetricCard:React.FC<MetricCardProps> = ({ icon, title, value, trend }) => 
     const iconBgClass = trend >= 0 ? "bg-green-100 text-green-500" : "bg-red-100 text-red-500";
 
     return (
-      <div className="flex flex-col p-6 rounded-xl shadow-lg border border-gray-200 bg-white hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
+      <div className="flex flex-col p-6 rounded-xl shadow-lg border border-gray-200 bg-gray-900 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
         <div className="flex items-center justify-between">
           <div className={`p-3 rounded-xl ${iconBgClass}`}>
             {icon}
@@ -28,8 +28,8 @@ const MetricCard:React.FC<MetricCardProps> = ({ icon, title, value, trend }) => 
           </div>
         </div>
         <div className="mt-4">
-            <p className="text-xl font-medium text-gray-800">{title}</p>
-            <h3 className="mt-2 text-4xl font-extrabold text-gray-900">{value}</h3>
+            <p className="text-xl font-medium text-white">{title}</p>
+            <h3 className="mt-2 text-4xl font-extrabold text-white">{value}</h3>
         </div>
       </div>
     );

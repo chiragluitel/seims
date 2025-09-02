@@ -1,9 +1,20 @@
 import { Request, Response } from "express";
 import { query } from "../database";
 
-export const getProductInfo = async (req: Request, res: Response) =>{
+export const getOneProduct = async (req: Request, res: Response) =>{
+    const { productId } = req.query
     try{
-        const result = await query('SELECT * FROM products;')
+        const build_query = `
+        SELECT 
+        product_id as id,
+        product_name as name,
+        product_price as price,
+        product_image as image
+        FROM
+        products
+        WHERE product_id = $1;
+        `
+        const result = await query(build_query, [productId] )
         res.json(result.rows)
     }catch(error:any){
         console.error('Error Occured when getting Product', error)

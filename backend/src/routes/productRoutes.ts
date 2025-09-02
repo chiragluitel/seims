@@ -1,9 +1,9 @@
 import express from 'express'
-import { getAllProducts, getProductInfo } from '../controllers/productController'
+import { getAllProducts, getOneProduct } from '../controllers/productController'
 
 const productRouter = express.Router()
 
-productRouter.get('/getProductInfo', getProductInfo)
+productRouter.get('/getOneProduct', getOneProduct)
 productRouter.get('/getAllProducts', getAllProducts)
 
 export default productRouter;

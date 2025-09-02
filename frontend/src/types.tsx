@@ -1,6 +1,6 @@
                             //   ID,    [Bounding Box Coordinates XYXY], Lable
 export type DetectionResults = [number, [number, number, number, number], string]
-                              //ID  , Label
+
 export interface DetectedObject{
     id: number,
     label: string
@@ -23,3 +23,9 @@ export interface CartState {
     discount: number
 }
 
+export interface User {
+    name: string,
+    organisation: string, 
+    job_title: string,
+    hashed_password: string
+}

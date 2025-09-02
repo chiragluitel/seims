@@ -5,6 +5,12 @@ import WidgetsPage from "./pages/WidgetsPage";
 import Navbar from "./components/navbar/navbar";
 import HomePage from "./pages/HomePage";
 import CheckoutBar from "./components/Checkout/CheckoutBar";
+import WMS from "./pages/WMS";
+import NewProductRegistration from "./pages/Admin/NewProductRegistration";
+import UpdateExistingProducts from "./pages/Admin/UpdateExistingProducts";
+import UpdateExistingProductUpdateScreen from "./pages/Admin/UpdateExistingProductUpdateScreen";
+import StockReceive from "./pages/Admin/StockReceive";
+import NewUserRegistration from "./pages/Admin/NewUserRegistration";
 
 const routes: RouteObject[] = [
     {
@@ -14,7 +20,7 @@ const routes: RouteObject[] = [
             <>
                 <div className="grid grid-cols-[auto_1fr_400px] h-screen w-screen overflow-hidden">
                     <Navbar />
-                    <div className="p-4 overflow-y-auto">
+                    <div className="p-4 overflow-hidden">
                         <Outlet />
                     </div>
                     <CheckoutBar />
@@ -33,7 +39,31 @@ const routes: RouteObject[] = [
             {
                 path:'/widgets',
                 element: <WidgetsPage />
-            }
+            },
+            {
+                path:'/configs',
+                element: <WMS />
+            },
+            {
+                path: '/newproduct',
+                element: <NewProductRegistration />
+            },
+            {
+                path: '/updateproduct',
+                element: <UpdateExistingProducts />
+            },
+            {
+                path: '/updateproduct/:productID',
+                element: <UpdateExistingProductUpdateScreen />
+            },
+            {
+                path: '/receivestock',
+                element: <StockReceive />
+            },
+            {
+                path: '/newuser',
+                element: <NewUserRegistration />
+            },
         ]
     },
 
