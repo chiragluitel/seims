@@ -3,6 +3,7 @@ import LandingPage from "./Pages/LandingPage";
 import Four0Four from "./Pages/404Error";
 import NavbarForLoggedIn from "./components/Navigation/NavbarForLoggedIn";
 import Footer from "./components/Footer";
+import ProductsPage from "./Pages/ProductsPage";
 
 const routes: RouteObject[] = [
     {
@@ -25,8 +26,8 @@ const routes: RouteObject[] = [
                 element: <LandingPage />
             },
             {
-                path:'/home',
-                element: <LandingPage />
+                path:'/products',
+                element: <ProductsPage />
             }
         ]
     },
