@@ -4,6 +4,7 @@ import Four0Four from "./Pages/404Error";
 import NavbarForLoggedIn from "./components/Navigation/NavbarForLoggedIn";
 import Footer from "./components/Footer";
 import ProductsPage from "./Pages/ProductsPage";
+import ProductDetailPage from "./Pages/ProductDetailPage";
 
 const routes: RouteObject[] = [
     {
@@ -28,6 +29,10 @@ const routes: RouteObject[] = [
             {
                 path:'/products',
                 element: <ProductsPage />
+            },
+            {
+                path:'/product/:productID',
+                element: <ProductDetailPage />
             }
         ]
     },

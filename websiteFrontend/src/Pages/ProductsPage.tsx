@@ -1,12 +1,16 @@
 //Implement Pages Feature
+import { useNavigate } from "react-router-dom";
 import ProductCard from "../components/ProductCard";
 import useGetAllProducts from "../hooks/useGetAllProducts";
+import type { Product } from "../types";
 
 const ProductsPage = () => {
 
     const { products } = useGetAllProducts();
-    const onProductClick = () => {
+    const navigate = useNavigate()
+    const onProductClick = (product: Product) => {
         console.log('Product Clicked');
+        navigate(`/product/${product.id}`)
     }
 
     return (
