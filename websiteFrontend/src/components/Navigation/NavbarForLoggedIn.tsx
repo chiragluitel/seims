@@ -1,4 +1,4 @@
-import { FaBox, FaEnvelope, FaHome, FaInfoCircle, FaLeaf, FaStore } from "react-icons/fa";
+import { FaBox, FaEnvelope, FaHome, FaInfoCircle, FaStore } from "react-icons/fa";
 import NavbarOptions from "./NavbarOptions";
 
 const NavbarForLoggedIn = () => {
@@ -8,7 +8,7 @@ const NavbarForLoggedIn = () => {
                 <nav className="flex items-center space-x-1">
                     <NavbarOptions label="Home" navigateTo="/" icon={<FaHome />} />
                     <NavbarOptions label="Products" navigateTo="/products" icon={<FaBox />} />
-                    <NavbarOptions label="Fresh" navigateTo="/fresh" icon={<FaLeaf />} />
+                    {/* <NavbarOptions label="Fresh" navigateTo="/fresh" icon={<FaLeaf />} /> */}
                     <NavbarOptions label="Store" navigateTo="/store" icon={<FaStore />} />
                     <NavbarOptions label="About" navigateTo="/about" icon={<FaInfoCircle />} />
                     <NavbarOptions label="Contact" navigateTo="/contact" icon={<FaEnvelope />} />

@@ -6,6 +6,9 @@ import Footer from "./components/Footer";
 import ProductsPage from "./Pages/ProductsPage";
 import ProductDetailPage from "./Pages/ProductDetailPage";
 import ScrollToTop from "./helpers/scrollToTop";
+import AboutPage from "./Pages/AboutPage";
+import StoreInfoPage from "./Pages/StoreInfoPage";
+import ContactUsPage from "./Pages/ContactUsPage";
 
 const routes: RouteObject[] = [
     {
@@ -35,6 +38,18 @@ const routes: RouteObject[] = [
             {
                 path:'/product/:productID',
                 element: <ProductDetailPage />
+            },
+            {
+                path:'/store',
+                element: <StoreInfoPage />
+            },
+            {
+                path:'/about',
+                element: <AboutPage />
+            },
+            {
+                path:'/contact',
+                element: <ContactUsPage />
             }
         ]
     },
