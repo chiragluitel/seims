@@ -1,6 +1,8 @@
 import { createBrowserRouter, Outlet, type RouteObject } from "react-router-dom";
 import LandingPage from "./Pages/LandingPage";
 import Four0Four from "./Pages/404Error";
+import NavbarForLoggedIn from "./components/Navigation/NavbarForLoggedIn";
+import Footer from "./components/Footer";
 
 const routes: RouteObject[] = [
     {
@@ -8,14 +10,13 @@ const routes: RouteObject[] = [
         element:
         (  
             <>
-                {/* <div className="grid grid-cols-[auto_1fr_400px] h-screen w-screen overflow-hidden">
-                    <LandingPage />
-                    <div className="p-4 overflow-hidden">
+                <div className="min-h-screen flex flex-col">
+                    <NavbarForLoggedIn />
+                    <div className="flex-1">
                         <Outlet />
                     </div>
-                    <LandingPage />
-                </div> */}
-                <Outlet/>
+                    <Footer />
+                </div>
             </> 
         ),
         children: [
@@ -32,7 +33,15 @@ const routes: RouteObject[] = [
 
     {
         path:'*', 
-        element: <Four0Four />
+        element: (
+            <div className="min-h-screen flex flex-col">
+                <NavbarForLoggedIn />
+                <div className="flex-1">
+                    <Four0Four />
+                </div>
+                <Footer />
+            </div>
+        )
     }
 ]
 export const router = createBrowserRouter(routes);
