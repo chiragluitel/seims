@@ -5,11 +5,18 @@ interface ProductOptionsProps{
 
 const ProductOptions:React.FC<ProductOptionsProps> = ({inStockQuantity, clickNcollectQuantity}) =>{ 
     return (
-        <>
-            <h1> Available Options: </h1>
-                {inStockQuantity>0? (<p> In Stock: </p>):(<p> No Stock </p>)}
-                {clickNcollectQuantity>0? (<p> Click N Collect: </p>):(<p> No Click N Collect Stock </p>)}
-        </>
+        <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="rounded-xl border border-green-600 p-4">
+                <div className="text-sm text-gray-500">In Stock</div>
+                <div className="mt-1 text-2xl font-bold text-gray-900">{inStockQuantity}</div>
+                <div className="mt-1 text-sm text-gray-500">{inStockQuantity>0? 'Available on shelves' : 'No stock'}</div>
+            </div>
+            <div className="rounded-xl border border-green-600 p-4">
+                <div className="text-sm text-gray-500">Click & Collect</div>
+                <div className="mt-1 text-2xl font-bold text-gray-900">{clickNcollectQuantity}</div>
+                <div className="mt-1 text-sm text-gray-500">{clickNcollectQuantity>0? 'Buy Now, Collect Later' : 'Not available'}</div>
+            </div>
+        </div>
     )
 }
 

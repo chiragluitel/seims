@@ -5,6 +5,7 @@ import NavbarForLoggedIn from "./components/Navigation/NavbarForLoggedIn";
 import Footer from "./components/Footer";
 import ProductsPage from "./Pages/ProductsPage";
 import ProductDetailPage from "./Pages/ProductDetailPage";
+import ScrollToTop from "./helpers/scrollToTop";
 
 const routes: RouteObject[] = [
     {
@@ -13,6 +14,7 @@ const routes: RouteObject[] = [
         (  
             <>
                 <div className="min-h-screen flex flex-col">
+                    <ScrollToTop />
                     <NavbarForLoggedIn />
                     <div className="flex-1">
                         <Outlet />
