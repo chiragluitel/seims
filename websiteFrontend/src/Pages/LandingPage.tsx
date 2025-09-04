@@ -1,12 +1,10 @@
-import Greeting from "../components/Greeting";
+import Main from "../components/Landing/Main";
 
-const LandingPage = ()=>{
+const LandingPage = () => {
     return (
-        <>
-           <div className="align-center mt-10">
-                <Greeting/>
-           </div>
-        </>
+        <div className="w-full">
+            <Main />
+        </div>
     )
 }
 

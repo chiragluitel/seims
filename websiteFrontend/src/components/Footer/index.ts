@@ -1,0 +1,10 @@
+export { default as StoreInfo } from './StoreInfo';
+export { default as QuickLinks } from './QuickLinks';
+export { default as QuickLinkItem } from './QuickLinkItem';
+export { default as Categories } from './Categories';
+export { default as CategoryItem } from './CategoryItem';
+export { default as ContactInfo } from './ContactInfo';
+export { default as Features } from './Features';
+export { default as FeatureItem } from './FeatureItem';
+export { default as BottomBar } from './BottomBar';
+export { default as LegalLinkItem } from './LegalLinkItem';
