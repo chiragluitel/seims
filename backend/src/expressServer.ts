@@ -4,6 +4,7 @@ import {createServer} from 'http'
 import productRouter from './routes/productRoutes';
 import {establishConnectionToDB} from './database'
 import cors from "cors";
+import authRouter from './routes/authRoutes';
 
 dotenv.config();
 const seimsExpressServer = express();
@@ -16,6 +17,7 @@ seimsExpressServer.get('/', (req: Request, res: Response) => {
 })
 
 seimsExpressServer.use('/products', productRouter)
+seimsExpressServer.use('/auth', authRouter)
 const httpServer = createServer(seimsExpressServer);
 
 async function startServer(){

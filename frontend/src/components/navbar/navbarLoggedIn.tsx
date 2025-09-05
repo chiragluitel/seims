@@ -4,13 +4,17 @@ import { BiSolidDashboard } from "react-icons/bi";
 import { FcSettings } from "react-icons/fc";
 import logo from "../../../src/assets/logoexample.jpg"
 import NavbarOptionsIcons from "./navbarOptionsIcons";
-import { useState } from "react";
+import { use, useState } from "react";
+import ProfilePicture from "../Profile/ProfilePicture";
+import ProfileCard from "../Profile/ProfileCard";
+import useGetUserDetails from "../../hooks/database/useGetUserDetails";
 
 const NavbarLoggedIn = ( ) =>{
     const [isOpen, setIsOpen] = useState(true);
     const handleToggle = () => {
         setIsOpen(!isOpen);
     }
+    const {user} = useGetUserDetails('1332');
     return (
     <>
         <div className={`h-full bg-card shadow-lg transition-all duration-300 ${isOpen ? 'w-54' : 'w-24'} z-50`}>
@@ -36,9 +40,14 @@ const NavbarLoggedIn = ( ) =>{
                 <NavbarOptionsIcons navigateTo="/widgets" icon={<BiSolidDashboard />} />
                 <NavbarOptionsIcons navigateTo="/configs" icon={<FcSettings />}/>
                 <NavbarOptionsIcons navigateTo="/profile" icon={<FiUser />} />
-            </div>               
+            </div>        
             )}
 
+            <div className="mt-auto p-2">
+                {user && (
+                    <ProfileCard user={user}isExpanded={isOpen}/>
+                )}
+            </div>
 
         </div>
     </>
