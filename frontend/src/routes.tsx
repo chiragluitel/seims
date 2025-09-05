@@ -11,6 +11,7 @@ import UpdateExistingProducts from "./pages/Admin/UpdateExistingProducts";
 import UpdateExistingProductUpdateScreen from "./pages/Admin/UpdateExistingProductUpdateScreen";
 import StockReceive from "./pages/Admin/StockReceive";
 import NewUserRegistration from "./pages/Admin/NewUserRegistration";
+import LoginPage from "./pages/LoginPage";
 
 const routes: RouteObject[] = [
     {
@@ -66,7 +67,10 @@ const routes: RouteObject[] = [
             },
         ]
     },
-
+    {
+        path:'/login',
+        element: <LoginPage />
+    },
     {
         path:'*', 
         element: <Four0Four />
