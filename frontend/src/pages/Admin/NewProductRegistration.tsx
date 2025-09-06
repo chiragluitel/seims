@@ -3,14 +3,11 @@ import NewProductForm from "../../components/WMS/newProduct/newProductForm";
 import ProductCardPreview from "../../components/products/ProductCardPreview";
 import { type Product } from "../../types";
 import CartItemDetail from "../../components/Checkout/above_section/CartItemDetail";
+import ProductCard from "../../components/Website/ProductCard";
+import { sample_product } from "../../constants";
 
 const NewProductRegistration = () => {
-  const [product, setProduct] = useState<Product>({
-    id: "Company.ProductName",
-    name: "Product Name",
-    price: 100,
-    image: "/logoexample.jpg",
-  });
+  const [product, setProduct] = useState<Product>(sample_product);
 
   const onInputChangeValue = (field: keyof Product, value: string | number) => {
     setProduct((prevProduct) => ({
@@ -35,16 +32,18 @@ const NewProductRegistration = () => {
           <div className="flex-1 justify-center items-center space-y-4">
             <ProductCardPreview
               name={product.name.length > 0 ? product.name : "Product Name"}
-              price={product.price}
+              price={product.instore_price}
               image={product.image}
             />
             <CartItemDetail 
             id={product.id} 
-            name={product.name} 
-            price={product.price} 
+            name={product.name.length > 0 ? product.name: "Product Name"} 
+            price={product.instore_price} 
             quantity={1} 
             image={product.image} 
             />
+            <h1 className="text-xl font-semibold mb-4"> Website </h1>
+            <ProductCard product={product} onClick={()=> {}} />
           </div>
         </div>
 
