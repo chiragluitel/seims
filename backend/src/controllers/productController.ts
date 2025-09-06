@@ -1,5 +1,8 @@
 import { Request, Response } from "express";
 import { query } from "../database";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 export const getOneProduct = async (req: Request, res: Response) =>{
     const { productId } = req.query
