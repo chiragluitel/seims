@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import NewProductForm from "../../components/WMS/newProduct/newProductForm";
 import ProductCardPreview from "../../components/products/ProductCardPreview";
 import { type Product } from "../../types";
@@ -6,11 +6,13 @@ import ProductCard from "../../components/Website/ProductCard";
 import { sample_product } from "../../constants";
 import useCreateOneProduct from "../../hooks/database/useCreateOneProduct";
 import CartItemDetailPreview from "../../components/products/CartItemDetailPreview";
+import SuccessPopUpModal from "../../components/PopUps/SuccessPopup";
 
 const NewProductRegistration = () => {
   const [product, setProduct] = useState<Product>(sample_product);
-  const {createOneProduct} = useCreateOneProduct ();
-  
+  const {createOneProduct, loading} = useCreateOneProduct ();
+  const [showSuccessPopup, setShowSuccessPopup] = useState(false);
+  const formRef = useRef<HTMLFormElement>(null)
   const onInputChangeValue = (field: keyof Product, value: string | number) => {
     setProduct((prevProduct) => ({
       ...prevProduct,
@@ -31,9 +33,15 @@ const NewProductRegistration = () => {
     }));
   };
 
-  const handleProductRegistration = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleProductRegistration = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    createOneProduct(product);
+    const result = await createOneProduct(product);
+    if (result?.ok){
+      setShowSuccessPopup(true);
+      setProduct({...sample_product});
+      formRef.current?.reset();
+    }
+
   }
   return (
     <div className="p-8 text-black bg-white min-h-screen">
@@ -43,7 +51,8 @@ const NewProductRegistration = () => {
         
         <div className="flex-1 bg-white border border-black p-6 rounded-lg shadow-lg">
           <h2 className="text-xl font-semibold mb-4">Product Details</h2>
-          <NewProductForm product={product} onInputChange={onInputChangeValue} onSubmit = {handleProductRegistration} onNestedInputChange={onNestedInputChangeValue}/>
+          <NewProductForm formRef={formRef} product={product} onInputChange={onInputChangeValue} onSubmit = {handleProductRegistration} onNestedInputChange={onNestedInputChangeValue} loading={loading}/>
+          {showSuccessPopup && <SuccessPopUpModal label="Registered one new item" isOpen={showSuccessPopup} onClose={()=>setShowSuccessPopup(false)} title="Success" /> }
         </div>
 
         <div className="flex-1 bg-gray-600 border border-black p-6 rounded-lg shadow-lg">

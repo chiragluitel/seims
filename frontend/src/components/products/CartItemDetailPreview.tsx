@@ -1,7 +1,6 @@
 import { FiTrash } from "react-icons/fi";
 import { useCartFunctions } from "../../hooks/useCartFunctions";
 import CartItemQuantity from "../Checkout/above_section/CartItemQuantity";
-import CartItem from "../Checkout/above_section/CartItem";
 
 type CartItemDetailPreviewProps = {
     id: string;
@@ -40,7 +39,11 @@ const CartItemDetailPreview: React.FC<CartItemDetailPreviewProps> = ({ name, pri
             {/* LookUp Required in Future to load image from DB */}
             <div className="h-16 w-16 bg-gray-200 rounded-md shrink-0 overflow-hidden"> <img src={image}/> </div>
             <div className="flex-1 min-w-0 mx-4">
-                <CartItem name={name} price={price} />
+                {/* //Cart Item, pasted directly here for preview */}
+                <div>
+                    <h1 className="text-lg font-medium text-gray-900">{name}</h1>
+                    <p className="text-sm text-gray-500">${(price).toFixed(2)}</p>
+                </div>
                 <CartItemQuantity
                     quantity={quantity}
                     onPlus={handleQuantityPlus}

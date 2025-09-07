@@ -11,8 +11,10 @@ interface NewProductFormProps {
   onInputChange: (field: keyof Product, value: string | number) => void;
   onNestedInputChange: <T extends "location" | "category">(field: T, nestedField: keyof Product[T], value: string) => void;
   onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
+  loading: boolean;
+  formRef: React.RefObject<HTMLFormElement | null>
 }
-const NewProductForm: React.FC<NewProductFormProps> = ({ onInputChange, onSubmit, onNestedInputChange }) => {
+const NewProductForm: React.FC<NewProductFormProps> = ({ formRef, onInputChange, onSubmit, onNestedInputChange, loading }) => {
   const {locations} = useGetAllLocations();
   const {categories} = useGetAllProductCategories();
   const {uploadFunction} = useS3UploadImage();
@@ -25,7 +27,7 @@ const NewProductForm: React.FC<NewProductFormProps> = ({ onInputChange, onSubmit
   }
 
   return (
-    <form onSubmit={onSubmit} className="space-y-6">
+    <form ref={formRef} onSubmit={onSubmit} className="space-y-6">
     <StringInputBox label="Product Name*" id="product-name" placeholder="E.g. Wai Wai Noodles" onInputChange={onInputChange} labelhtmlfor="product-name" fieldof="name"/>
     <StringInputBox label="Description*" id="product-description" placeholder="e.g., A state of the art product" onInputChange={onInputChange} labelhtmlfor="product-description" fieldof="description"/>
     <StringInputBox label="Long Description*" id="product-longdescription" placeholder="e.g., A state of the art product" onInputChange={onInputChange} labelhtmlfor="product-longdescription" fieldof="long_description" />
@@ -36,7 +38,12 @@ const NewProductForm: React.FC<NewProductFormProps> = ({ onInputChange, onSubmit
     {locations && <AutocompleteInput label="Location" value="" options={locations} placeholder="E.g. Rack 1" onSelect={(value)=>onNestedInputChange("location", "id", value) }/> }
     <StringInputBox label="Barcode" id="product-barcode" placeholder="e.g., NTWA-009879000" onInputChange={onInputChange} labelhtmlfor="product-barcode" fieldof="barcode"/>
     <ImageInputBox label="Product Image" id="product-image" labelhtmlfor="product-image" onUpload={OnUpload} />
-    <button type="submit" className="w-full bg-black text-white font-bold p-3 rounded-lg cursor-pointer hover:bg-gray-900 transition-colors">Add Product</button>
+    {loading? (
+      <button type="submit" className="w-full bg-black text-white font-bold p-3 rounded-lg cursor-not-allowed hover:bg-gray-900 transition-colors">Submitting ...</button>
+    ):(
+      <button type="submit" className="w-full bg-black text-white font-bold p-3 rounded-lg cursor-pointer hover:bg-gray-900 transition-colors">Add Product</button>  
+    )}
+    
     </form>
   );
 };

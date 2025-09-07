@@ -2,8 +2,7 @@ import { useState } from "react"
 import type { Product } from "../../types"
 
 const useCreateOneProduct = () =>{ 
-    const [result, setResult] = useState<Response>()
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null)
         const createOneProduct = async (product: Product) => {
             try{
@@ -26,7 +25,7 @@ const useCreateOneProduct = () =>{
                         'product_barcode':product.barcode
                     })
                 })
-                setResult(result)
+                return (result)
             }catch (error: any){
                 setError(error)
             }finally{
@@ -34,7 +33,7 @@ const useCreateOneProduct = () =>{
             }
         }
 
-    return {createOneProduct, result, loading, error}
+    return {createOneProduct, loading, error}
 }
 
 export default useCreateOneProduct;

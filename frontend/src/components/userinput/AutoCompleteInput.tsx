@@ -22,6 +22,10 @@ const AutocompleteInput: React.FC<AutocompleteInputProps> = ({
   const [filteredOptions, setFilteredOptions] = useState(options);
   const [showDropdown, setShowDropdown] = useState(false);
   const inputRef = useRef<HTMLDivElement>(null);
+  
+  useEffect(() => {
+    setInputValue(value || "");   // Reset Helper
+  }, [value]);
 
   useEffect(() => {
     if (inputValue) {
