@@ -1,5 +1,4 @@
 import { FiUpload } from "react-icons/fi";
-import type { Product } from "../../../types";
 
 interface ImageInputBoxProps{
     label: string
