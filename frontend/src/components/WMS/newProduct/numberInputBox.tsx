@@ -7,13 +7,15 @@ interface NumberInputBoxProps{
     placeholder: string
     fieldof: keyof Product
     onInputChange: (field: keyof Product, value: string | number) => void;
+    defaultvalue?: number
 }
 
-const NumberInputBox:React.FC<NumberInputBoxProps> = ({label, onInputChange, id, labelhtmlfor, placeholder, fieldof}) => {
+const NumberInputBox:React.FC<NumberInputBoxProps> = ({label, onInputChange, id, labelhtmlfor, placeholder, fieldof, defaultvalue}) => {
     return (      
     <div className="flex flex-col">
     <label htmlFor={labelhtmlfor} className="text-sm font-medium text-black mb-1">{label}</label>
         <input
+        defaultValue={defaultvalue}
         id={id}
         placeholder={placeholder}
         type='number'

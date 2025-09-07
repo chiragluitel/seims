@@ -168,6 +168,154 @@ export const uploadImage = async (req: Request, res: Response) => {
 
 }
 
+export const updateProduct = async (req: Request, res: Response) => {
+    if (!process.env.ENTERPRISE_KEY) {
+        console.error("No Enterprise Key Set. Check ENV");
+        return;
+    }
+
+    const {
+        product_id,
+        sku,
+        product_name,
+        product_description,
+        product_longdescription,
+        product_instore_price,
+        product_online_price,
+        product_soh,
+        product_location,
+        product_category,
+        product_image,
+        product_barcode
+    } = req.body;
+
+    try {
+        await query("BEGIN");
+        //1
+        const productMasterQuery = `
+            UPDATE m_product_master
+            SET product_barcode = $1,
+                category_id = $2
+            WHERE sku = $3
+            RETURNING product_id, sku;
+        `;
+        const productMasterResult = await query(productMasterQuery, [
+            product_barcode,
+            product_category,
+            sku
+        ]);
+
+        if (productMasterResult.rowCount === 0) {
+            throw new Error(`Product with SKU ${sku} not found.`);
+        }
+
+        //2
+        const longDescIdQuery = `
+            SELECT longdescription_id
+            FROM m_product_detail
+            WHERE sku = $1
+        `;
+        const longDescResult = await query(longDescIdQuery, [sku]);
+        const longDescId = longDescResult.rows[0]?.longdescription_id;
+        if (longDescId) {
+            await query(
+                `UPDATE m_longdescription_detail SET longdescription_text = $1 WHERE longdescription_id = $2`,
+                [product_longdescription, longDescId]
+            );
+        }
+
+        // 3
+        const productDetailQuery = `
+            UPDATE m_product_detail
+            SET product_name = $1,
+                product_description = $2,
+                category_id = $3
+            WHERE sku = $4
+        `;
+        await query(productDetailQuery, [
+            product_name,
+            product_description,
+            product_category,
+            sku
+        ]);
+
+        // 4
+        const imageQuery = `
+            UPDATE m_productimages_master
+            SET imageurl = $1
+            WHERE sku = $2
+        `;
+        await query(imageQuery, [product_image, sku]);
+
+        // 5
+        if (product_location) {
+            const inventoryQuery = `
+                UPDATE m_inventory_master
+                SET soh = $1,
+                    location_id = $2
+                WHERE sku = $3
+            `;
+            await query(inventoryQuery, [
+                product_soh,
+                product_location,
+                sku
+            ]);
+        }
+
+        // 6
+        const priceQuery = `
+            UPDATE m_product_prices_master
+            SET store_price = $1,
+                online_price = $2
+            WHERE sku = $3
+        `;
+        await query(priceQuery, [
+            product_instore_price,
+            product_online_price,
+            sku
+        ]);
+
+        // 7
+        const transactionQuery = `
+            INSERT INTO m_product_transaction_history(
+                enterprise_id,
+                product_id,
+                sku,
+                transaction_type,
+                location_from,
+                location_to,
+                sale_price
+            )
+            VALUES ($1, $2, $3, $4, $5, $6, $7)
+        `;
+        await query(transactionQuery, [
+            process.env.ENTERPRISE_KEY,
+            product_id,
+            sku,
+            "UPDATE",
+            null,
+            product_location || null,
+            null
+        ]);
+
+        await query("COMMIT");
+
+        res.status(200).json({
+            message: "Product updated successfully",
+            product_id,
+            sku
+        });
+    } catch (error: any) {
+        await query("ROLLBACK");
+        console.error("Error updating product:", error);
+        res.status(500).json({
+            message: "Failed to update product",
+            error: error.message
+        });
+    }
+};
+
+
 export const getOneProduct = async (req: Request, res: Response) =>{
     const { productId } = req.query
     try{
@@ -178,11 +326,11 @@ export const getOneProduct = async (req: Request, res: Response) =>{
             pd.product_name as name, 
             pd.product_description as description, 
             ld.longdescription_text as long_description,
-            pri.store_price as instore_price, 
-            pri.online_price as online_price, 
-            pri.discount_price as discounted_price, 
-            inv.soh as soh, 
-            inv.quantity_ordered as ordered_quantity, 
+            (pri.store_price * 100)::int as instore_price_cents, 
+            (pri.online_price * 100)::int as online_price_cents, 
+            (pri.discount_price * 100)::int as discounted_price_cents, 
+            (inv.soh * 1000)::int as soh_cents,
+            (inv.quantity_ordered * 1000)::int as ordered_quantity_cents, 
             json_build_object(
                 'id', loc.location_id,
                 'name', loc.location_name
@@ -201,7 +349,7 @@ export const getOneProduct = async (req: Request, res: Response) =>{
         LEFT JOIN m_shopfloor_location_master loc on loc.location_id = inv.location_id 
         LEFT JOIN m_category_master cat on cat.category_id = pd.category_id
         LEFT JOIN m_longdescription_detail ld on ld.longdescription_id = pd.longdescription_id
-        WHERE pm.product_id = $1 and pm.enterprise_id = $2;
+        WHERE pm.product_id=$1 AND pm.enterprise_id = $2;
         `
         const result = await query(build_query, [productId, process.env.ENTERPRISE_KEY] )
         res.json(result.rows)

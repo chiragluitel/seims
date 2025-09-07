@@ -1,153 +1,35 @@
-import { FiUpload } from "react-icons/fi";
 import type { Product } from "../../../types";
 import useGetAllLocations from "../../../hooks/database/useGetAllLocations";
 import useGetAllProductCategories from "../../../hooks/database/useGetAllProductCategories";
 import AutocompleteInput from "../../userinput/AutoCompleteInput";
+import ImageInputBox from "../newProduct/imageInputBox";
+import StringInputBoxRO from "../../userinput/stringInputBoxRO";
+import NumberInputBoxRO from "../../userinput/numberInputBoxRO";
+
 
 interface ExistingProductFormROProps {
   product: Product;
-  onInputChange: (field: keyof Product, value: string | number) => void;
 }
 
-const ExistingProductFormRO: React.FC<ExistingProductFormROProps> = ({ product, onInputChange }) => {
+const ExistingProductFormRO: React.FC<ExistingProductFormROProps> = ({ product }) => {
   const {locations} = useGetAllLocations();
   const {categories} = useGetAllProductCategories();
 
-  const handleProductRegistration = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log("Product Added");
-  };
-
   return (
-  <form onSubmit={handleProductRegistration} className="space-y-6">
-      {/* Name */}
-      <div className="flex flex-col">
-        <label htmlFor="product-name" className="text-sm font-medium text-black mb-1">
-          Product Name*
-        </label>
-        <input
-          disabled
-          defaultValue={product.name}
-          id="product-name"
-          placeholder="e.g., Wai Wai Noodles"
-          className="bg-gray-700 text-white p-3 rounded-lg border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          onChange={(e) => onInputChange("name", e.target.value)}
-        />
-      </div>
-      {/* Description */}
-      <div className="flex flex-col">
-        <label htmlFor="product-description" className="text-sm font-medium text-black mb-1">
-          Description*
-        </label>
-        <input
-          disabled
-          defaultValue={product.description}
-          id="product-description"
-          placeholder="e.g., A state of the art product"
-          step="any"
-          className="bg-gray-700 text-white p-3 rounded-lg border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
-      </div>
-
-      {/* Long Description */}
-      <div className="flex flex-col">
-        <label htmlFor="product-description" className="text-sm font-medium text-black mb-1">
-          Summary
-        </label>
-        <textarea
-          disabled
-          defaultValue={product.long_description}
-          id="product-description"
-          placeholder="e.g., A state-of-the-art product"
-          rows={6} // You can adjust the number of visible rows here
-          className="bg-gray-700 text-white p-3 rounded-lg border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 resize-y"
-        />
-      </div>
-
-      {/* In Store Price */}
-      <div className="flex flex-col">
-        <label htmlFor="product-price-instore" className="text-sm font-medium text-black mb-1">
-          In-Store Price ($)*
-        </label>
-        <input
-          disabled
-          defaultValue={product.instore_price_cents/100}
-          id="product-price-instore"
-          placeholder="e.g., 15.00"
-          type="number"
-          step="any"
-          className="bg-gray-700 text-white p-3 rounded-lg border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          onChange={(e) => onInputChange("instore_price_cents", Number(e.target.value))}
-        />
-      </div>
-            
-      {/* Online Price */}
-      <div className="flex flex-col">
-        <label htmlFor="product-price-online" className="text-sm font-medium text-black mb-1">
-          Online Price ($)*
-        </label>
-        <input
-          disabled
-          defaultValue={product.online_price_cents}
-          id="product-price-online"
-          placeholder="e.g., 15.00"
-          type="number"
-          step="any"
-          className="bg-gray-700 text-white p-3 rounded-lg border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          onChange={(e) => onInputChange("online_price_cents", Number(e.target.value))}
-        />
-      </div>
-            
-      {/* Category */}
-      {categories && <AutocompleteInput disabled label="Category" value="" options={categories} placeholder="E.g. Food" onSelect={(value)=>onInputChange("category", value)} /> }
-
-      {/* Location */}
-      {locations && <AutocompleteInput disabled label="Location" value="" options={locations} placeholder="E.g. Rack 1" onSelect={(value)=>onInputChange("location", value) }/> }
-
-      {/* Barcode */}
-      <div className="flex flex-col">
-        <label htmlFor="product-barcode" className="text-sm font-medium text-black mb-1">
-          Barcode
-        </label>
-        <input
-          disabled
-          defaultValue={product.barcode}
-          id="product-barcode"
-          placeholder="e.g., NTWA-009879000"
-          step="any"
-          className="bg-gray-700 text-white p-3 rounded-lg border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
-      </div>
-
-      {/* Image */}
-      <div className="flex flex-col">
-        <label htmlFor="product-image" className="text-sm font-medium text-black mb-1">
-          Image
-        </label>
-        <div className="relative">
-          <input
-            id="product-image"
-            type="file"
-            accept=".jpeg, .png"
-            className="absolute inset-0 opacity-0 cursor-pointer"
-            onChange={(e) => onInputChange("image", e.target.value)}
-            disabled
-          />
-          <div className="flex items-center justify-center p-3 rounded-lg border-2 border-dashed border-gray-600 cursor-pointer hover:bg-gray-700 transition-colors">
-            <FiUpload className="text-gray-400 w-6 h-6 mr-2" />
-            <span className="text-gray-400">Click to upload image</span>
-          </div>
-        </div>
-      </div>
-      
-      <button
-        type="submit"
-        className="w-full bg-black text-white font-bold p-3 rounded-lg cursor-pointer hover:bg-gray-900 transition-colors"
-      >
-        Add Product
-      </button>
-  </form>
-  );
+    <form className="space-y-6">
+    <StringInputBoxRO label="Product Name*" id="product-name" value={product.name} labelhtmlfor="product-name"/>
+    <StringInputBoxRO label="Description*" id="product-description" value={product.description} labelhtmlfor="product-description" />
+    <StringInputBoxRO label="Long Description*" id="product-longdescription" value={product.long_description} labelhtmlfor="product-longdescription" />
+    <NumberInputBoxRO label="In-Store Price ($)*" id="product-price-xinstore" value={product.instore_price_cents/100} labelhtmlfor="product-price-instore"  />
+    <NumberInputBoxRO label="Online Price ($)*" id="product-price-online" value={product.online_price_cents/100} labelhtmlfor="product-price-online" />
+    {categories && <AutocompleteInput label="Category" value={product.category.name} options={categories} placeholder="E.g. Food" onSelect={()=>{}} disabled /> }
+    <NumberInputBoxRO label="Current Stock" id="product-soh" value={product.soh_cents/100} labelhtmlfor="product-soh" />
+    {locations && <AutocompleteInput label="Location" value={product.location.name} options={locations} placeholder="E.g. Rack 1" onSelect={()=>{}} disabled/> }
+    <StringInputBoxRO label="Barcode" id="product-barcode" value="e.g., NTWA-009879000" labelhtmlfor="product-barcode"/>
+    <ImageInputBox label="Product Image" id="product-image" labelhtmlfor="product-image" onUpload={()=>{}} />
+    <button type="submit" className="w-full bg-black text-white font-bold p-3 rounded-lg cursor-pointer hover:bg-gray-900 transition-colors">Add Product</button>  
+    </form>
+    );
 };
 
 export default ExistingProductFormRO;

@@ -1,107 +1,70 @@
 import { useParams } from "react-router-dom";
 import useGetOneProduct from "../../hooks/database/useGetOneProduct";
 import type { Product } from "../../types";
-import { useState } from "react";
-import ProductCardPreview from "../../components/products/ProductCardPreview";
-import CartItemDetail from "../../components/Checkout/above_section/CartItemDetail";
-import ExistingProductFormRW from "../../components/WMS/existingProducts/existingProductFormRW";
-import ExistingProductFormRO from "../../components/WMS/existingProducts/existingProductFormRO";
+import { useRef, useState } from "react";
 import { sample_product } from "../../constants";
-import ProductCard from "../../components/Website/ProductCard";
+import NonEditingModeScreen from "../../components/WMS/existingProducts/nonEditModeScreen";
+import EditingModeScreen from "../../components/WMS/existingProducts/EditingModeScreen";
+import SuccessPopUpModal from "../../components/PopUps/SuccessPopup";
+import useUpdateOneProduct from "../../hooks/database/useUpdateOneProduct";
 
 const UpdateExistingProductUpdateScreen = () =>{ 
     const {productID} = useParams<{productID: string}>()
     const {product} = useGetOneProduct(productID);
+    const formRef = useRef<HTMLFormElement>(null)
+    const [showSuccessPopup, setShowSuccessPopup] = useState(false);
+
+    const {updateOneProduct, loading} = useUpdateOneProduct();
     const [isEditMode, setIsEditMode] = useState(false);
-    const [toBeUpdatedProduct, setToBeUpdatedProduct] = useState<Product>(sample_product);
-    
-    
-      const onInputChangeValue = (field: keyof Product, value: string | number) => {
+    const [toBeUpdatedProduct, setToBeUpdatedProduct] = useState<Product> (product? product : sample_product);
+    const onInputChangeValue = (field: keyof Product, value: string | number) => {
         setToBeUpdatedProduct((prevProduct) => ({
           ...prevProduct,
           [field]: value,
         }));
+    };
+    console.log('This product will be sent to Backend:', toBeUpdatedProduct)
+    const onNestedInputChangeValue = <T extends "location" | "category">(
+        field: T,
+        nestedField: keyof Product[T],
+        value: string
+      ) => {
+        setToBeUpdatedProduct((prevProduct) => ({
+          ...prevProduct,
+          [field]: {
+            ...prevProduct[field],
+            [nestedField]: value,
+          },
+        }));
       };
+    
+    const handleProductRegistration = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        const result = await updateOneProduct(toBeUpdatedProduct)
+        if (result?.ok){
+          setShowSuccessPopup(true);
+          setToBeUpdatedProduct({...sample_product});
+          formRef.current?.reset();
+        }
+    }
     
     return (
         <>
-        {(product && !isEditMode) && (
-                <div className="p-8 text-black bg-white min-h-screen">
-                <h1 className="text-3xl font-bold mb-6">Viewing: {product?.name} </h1>
-                <div className="flex items-start space-x-8">
-                <div className="flex-1 bg-white border border-black p-6 rounded-lg shadow-lg">
-                    <div className="flex items-start justify-between">
-                    <h2 className="text-xl font-semibold mb-4">Product Details</h2>
-                     <button onClick={() => setIsEditMode(true)}> <span className="text-xl font-semibold text-blue-600 cursor-pointer underline"> Edit </span> </button>
-                    </div>
-                    <ExistingProductFormRO product={product} onInputChange={onInputChangeValue} />
-                </div>
-
-                <div className="flex-1 bg-gray-600 border border-black p-6 rounded-lg shadow-lg">
-                    <h2 className="text-xl font-semibold mb-4">Preview</h2>
-                    <div className="flex-1 justify-center items-center space-y-4">
-                    <ProductCardPreview
-                        name={toBeUpdatedProduct.name.length > 0 ? toBeUpdatedProduct.name : "Product Name"}
-                        price={toBeUpdatedProduct.instore_price_cents}
-                        image={toBeUpdatedProduct.image}
-                    />
-                    <CartItemDetail 
-                    id={toBeUpdatedProduct.id} 
-                    name={toBeUpdatedProduct.name} 
-                    price={toBeUpdatedProduct.instore_price_cents} 
-                    quantity={1} 
-                    image={toBeUpdatedProduct.image} 
-                    />
-
-                    <h1 className="text-xl font-semibold mb-4"> Website </h1>
-                    <ProductCard product={product} onClick={()=>{}} />
-                    </div>
-                </div>
-
-                </div>
-            </div>
-        )}
+        {(product && !isEditMode) && (<NonEditingModeScreen onEditClick={()=>setIsEditMode(true)} product={product}/>)}
 
         {(product && isEditMode) && (
-                <div className="p-8 text-black bg-white min-h-screen">
-                <h1 className="text-3xl font-bold mb-6">Editing: {product?.name} </h1>
-
-                <div className="flex items-start space-x-8">
-                
-                <div className="flex-1 bg-white border border-black p-6 rounded-lg shadow-lg">
-                    <div className="flex items-start justify-between">
-                    <h2 className="text-xl font-semibold mb-4">Product Details</h2>
-                    </div>
-                    <ExistingProductFormRW product={product} onInputChange={onInputChangeValue} />
-                </div>
-
-                <div className="flex-1 bg-gray-600 border border-black p-6 rounded-lg shadow-lg">
-                    <h2 className="text-xl font-semibold mb-4">Preview</h2>
-                    <div className="flex-1 justify-center items-center space-y-4">
-                    <ProductCardPreview
-                        name={toBeUpdatedProduct.name.length > 0 ? toBeUpdatedProduct.name : "Product Name"}
-                        price={toBeUpdatedProduct.instore_price_cents}
-                        image={toBeUpdatedProduct.image}
-                    />
-                    <CartItemDetail 
-                    id={toBeUpdatedProduct.id} 
-                    name={toBeUpdatedProduct.name} 
-                    price={toBeUpdatedProduct.instore_price_cents} 
-                    quantity={1} 
-                    image={toBeUpdatedProduct.image} 
-                    />
-                    <h1 className="text-xl font-semibold mb-4"> Website </h1>
-                    <ProductCard product={product} onClick={()=>{}} />
-                    </div>
-
-                </div>
-
-                </div>
-            </div>
+            <EditingModeScreen 
+            formRef={formRef}
+            onInputChange={onInputChangeValue} 
+            onNestedInputChange={onNestedInputChangeValue}
+            onSubmit={handleProductRegistration}
+            product={product} 
+            toBeUpdatedProduct={toBeUpdatedProduct}
+            loading={loading} 
+            />
         )}
+        {showSuccessPopup && <SuccessPopUpModal label="Updated one existing item" isOpen={showSuccessPopup} onClose={()=>setShowSuccessPopup(false)} title="Success" /> }
         </>
-
-
     )
 };
 export default UpdateExistingProductUpdateScreen;
