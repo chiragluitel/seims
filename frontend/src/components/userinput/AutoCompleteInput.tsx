@@ -79,7 +79,7 @@ const AutocompleteInput: React.FC<AutocompleteInputProps> = ({
               filteredOptions.map((option, index) => (
                 <li
                   key={index}
-                  onClick={() => handleOptionClick(option.name)}
+                  onClick={() => handleOptionClick(option.id)}
                   className="p-3 text-white cursor-pointer hover:bg-gray-600"
                 >
                   {option.name}

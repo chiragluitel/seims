@@ -17,8 +17,8 @@ export interface Product {
     discounted_price: number,
     soh: number,
     ordered_quantity: number,
-    location: string,
-    category: string,
+    location: Location,
+    category: ProductCategory,
     image: string,
     barcode: string
 }

@@ -12,8 +12,8 @@ export const sample_product: Product = {
     discounted_price: 9.99,
     soh: 35,
     ordered_quantity: 45,
-    location: 'Rack 1',
-    category: 'Food',
-    image: '/logoexample.jpg',
-    barcode: '10301830j0f982028093j02829'
+    location: {id: 'f68fe6ae-2f6b-467e-b5d2-de53bb1075b9', name: 'Rack 1'},
+    category: {id: 'Grocery', name: 'Grocery'},
+    image: 'https://seims-image-bucket.s3.ap-southeast-2.amazonaws.com/seims/CI-NEPSTRADING-LYNVICAUS/logoexample.jpg',
+    barcode: ''
 }

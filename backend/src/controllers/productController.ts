@@ -17,12 +17,22 @@ export const createProduct = async (req: Request, res:Response) => {
         product_instore_price,
         product_online_price,
         product_soh,
-        product_orderedqty,
         product_location,
         product_category,
-        product_image,
         product_barcode
     } = req.body
+    console.log(
+            'Data Received:',
+            product_name,
+            product_description,
+            product_longdescription,
+            product_instore_price,
+            product_online_price,
+            product_soh,
+            product_location,
+            product_category,
+            product_barcode
+    )
     const sanitizedProductName = product_name.trim().replace(/\s+/g, '-');
     const dynamicProductId = `${process.env.ENTERPRISE_KEY}-${sanitizedProductName}`;
   
@@ -65,7 +75,7 @@ export const createProduct = async (req: Request, res:Response) => {
             longdescription_id,
         ]);
         
-        if(location){
+        if(product_location){
             //4
             const productLocationQuery = `
             INSERT INTO m_inventory_master (enterprise_id, product_id, sku, soh, quantity_ordered, location_id)
@@ -76,14 +86,14 @@ export const createProduct = async (req: Request, res:Response) => {
                 product_id,
                 sku,
                 product_soh,
-                product_orderedqty,
+                0,
                 product_location
             ])
         }
 
         //5
         const productPriceQuery = `
-        INSERT INTO m_product_price_master (product_id, sku, store_price, online_price, discounted_price)
+        INSERT INTO m_product_prices_master (product_id, sku, store_price, online_price, discount_price)
         VALUES ($1, $2, $3, $4, $5)
         `
         await query (productPriceQuery, [
@@ -95,9 +105,9 @@ export const createProduct = async (req: Request, res:Response) => {
         ])
 
         //6
-        const locationTo = location? location : '';
+        const locationTo =  product_location? product_location : null;
         const transactionQuery = `
-        INSERT INTO m_transactions(enterprise_id, product_id, sku, transaction_type, location_from, location_to, sale_price)
+        INSERT INTO m_product_transaction_history(enterprise_id, product_id, sku, transaction_type, location_from, location_to, sale_price)
         VALUES ($1, $2, $3, $4, $5, $6, $7)
         `
         await query (transactionQuery,[
@@ -105,7 +115,7 @@ export const createProduct = async (req: Request, res:Response) => {
             product_id,
             sku,
             'NEW-REG',
-            '',
+            null,
             locationTo,
             null
         ])
@@ -148,9 +158,8 @@ export const uploadImage = async (req: Request, res: Response) => {
 
     const command = new PutObjectCommand({
         Bucket: S3_BUCKET_NAME,
-        Key: `seims/${process.env.ENTERPRISE_KEY}/${filename}`, // A key (path) to store the file under
+        Key: `seims/${process.env.ENTERPRISE_KEY}/${filename}`,
         ContentType: fileType,
-        ACL: 'public-read', // Set this if you want the image to be publicly accessible
     });
 
     try{
