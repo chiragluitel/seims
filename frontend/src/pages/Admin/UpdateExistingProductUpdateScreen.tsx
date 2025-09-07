@@ -42,13 +42,13 @@ const UpdateExistingProductUpdateScreen = () =>{
                     <div className="flex-1 justify-center items-center space-y-4">
                     <ProductCardPreview
                         name={toBeUpdatedProduct.name.length > 0 ? toBeUpdatedProduct.name : "Product Name"}
-                        price={toBeUpdatedProduct.instore_price}
+                        price={toBeUpdatedProduct.instore_price_cents}
                         image={toBeUpdatedProduct.image}
                     />
                     <CartItemDetail 
                     id={toBeUpdatedProduct.id} 
                     name={toBeUpdatedProduct.name} 
-                    price={toBeUpdatedProduct.instore_price} 
+                    price={toBeUpdatedProduct.instore_price_cents} 
                     quantity={1} 
                     image={toBeUpdatedProduct.image} 
                     />
@@ -80,13 +80,13 @@ const UpdateExistingProductUpdateScreen = () =>{
                     <div className="flex-1 justify-center items-center space-y-4">
                     <ProductCardPreview
                         name={toBeUpdatedProduct.name.length > 0 ? toBeUpdatedProduct.name : "Product Name"}
-                        price={toBeUpdatedProduct.instore_price}
+                        price={toBeUpdatedProduct.instore_price_cents}
                         image={toBeUpdatedProduct.image}
                     />
                     <CartItemDetail 
                     id={toBeUpdatedProduct.id} 
                     name={toBeUpdatedProduct.name} 
-                    price={toBeUpdatedProduct.instore_price} 
+                    price={toBeUpdatedProduct.instore_price_cents} 
                     quantity={1} 
                     image={toBeUpdatedProduct.image} 
                     />

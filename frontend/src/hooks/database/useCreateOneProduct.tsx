@@ -17,11 +17,12 @@ const useCreateOneProduct = () =>{
                         'product_name':product.name,
                         'product_description': product.description,
                         'product_longdescription': product.long_description,
-                        'product_instore_price': product.instore_price,
-                        'product_online_price':product.online_price,
-                        'product_soh':product.soh,
+                        'product_instore_price': product.instore_price_cents,
+                        'product_online_price':product.online_price_cents,
+                        'product_soh':product.soh_cents,
                         'product_location':locationCheck,
                         'product_category':product.category.id,
+                        'product_image': product.image,
                         'product_barcode':product.barcode
                     })
                 })

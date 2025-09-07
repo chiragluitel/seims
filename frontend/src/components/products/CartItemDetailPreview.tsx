@@ -1,9 +1,9 @@
 import { FiTrash } from "react-icons/fi";
-import { useCartFunctions } from "../../../hooks/useCartFunctions";
-import CartItem from "./CartItem";
-import CartItemQuantity from "./CartItemQuantity";
+import { useCartFunctions } from "../../hooks/useCartFunctions";
+import CartItemQuantity from "../Checkout/above_section/CartItemQuantity";
+import CartItem from "../Checkout/above_section/CartItem";
 
-type CartItemDetailProps = {
+type CartItemDetailPreviewProps = {
     id: string;
     name: string;
     price: number;
@@ -11,7 +11,7 @@ type CartItemDetailProps = {
     quantity: number;
 };
 
-const CartItemDetail: React.FC<CartItemDetailProps> = ({ name, price, quantity, id, image }) => {
+const CartItemDetailPreview: React.FC<CartItemDetailPreviewProps> = ({ name, price, quantity, id, image }) => {
     const { setQuantity, removeItem } = useCartFunctions();
 
     const handleQuantityPlus = () => {
@@ -51,7 +51,7 @@ const CartItemDetail: React.FC<CartItemDetailProps> = ({ name, price, quantity, 
             
             <div className="flex items-center space-x-2">
                 <h1 className="text-right font-medium text-gray-800">
-                    ${((price/100) * quantity).toFixed(2)}
+                    ${((price) * quantity).toFixed(2)}
                 </h1>
                 <button 
                     onClick={() => removeItem(id)}
@@ -64,4 +64,4 @@ const CartItemDetail: React.FC<CartItemDetailProps> = ({ name, price, quantity, 
     );
 };
 
-export default CartItemDetail;
+export default CartItemDetailPreview;

@@ -71,13 +71,13 @@ const ExistingProductFormRO: React.FC<ExistingProductFormROProps> = ({ product, 
         </label>
         <input
           disabled
-          defaultValue={product.instore_price}
+          defaultValue={product.instore_price_cents/100}
           id="product-price-instore"
           placeholder="e.g., 15.00"
           type="number"
           step="any"
           className="bg-gray-700 text-white p-3 rounded-lg border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          onChange={(e) => onInputChange("instore_price", Number(e.target.value))}
+          onChange={(e) => onInputChange("instore_price_cents", Number(e.target.value))}
         />
       </div>
             
@@ -88,13 +88,13 @@ const ExistingProductFormRO: React.FC<ExistingProductFormROProps> = ({ product, 
         </label>
         <input
           disabled
-          defaultValue={product.online_price}
+          defaultValue={product.online_price_cents}
           id="product-price-online"
           placeholder="e.g., 15.00"
           type="number"
           step="any"
           className="bg-gray-700 text-white p-3 rounded-lg border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          onChange={(e) => onInputChange("online_price", Number(e.target.value))}
+          onChange={(e) => onInputChange("online_price_cents", Number(e.target.value))}
         />
       </div>
             

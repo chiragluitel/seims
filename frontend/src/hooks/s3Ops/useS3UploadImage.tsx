@@ -1,7 +1,4 @@
-import { useState } from "react";
-
 const useS3UploadImage = () => {
-    const [s3ImageUrlResponse, setS3ImageUrlResponse] = useState('')
     const uploadFunction = async (file: File) => {
         try{
             const filename = file.name;
@@ -30,12 +27,11 @@ const useS3UploadImage = () => {
             }
             console.log('Upload Successful: ', uploadResponse)
             const s3ImageUrl = url.split('?')[0]; 
-            console.log('Image URL:', s3ImageUrl)
-            setS3ImageUrlResponse(s3ImageUrl);
+            return (s3ImageUrl)
         }catch(err:any){
             console.error("Upload error:", err);
         }
     }
-    return {uploadFunction, s3ImageUrlResponse}
+    return {uploadFunction}
 }
 export default useS3UploadImage;

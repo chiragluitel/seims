@@ -24,9 +24,9 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onClick }) => {
                     <h2 className="text-gray-900 font-semibold text-base leading-snug line-clamp-2">
                         {product.name.length>0? product.name : 'Product Name'}
                     </h2>
-                    {product.online_price !== undefined && (
+                    {product.online_price_cents !== undefined && (
                         <span className="shrink-0 rounded-md bg-emerald-50 px-2 py-1 text-xs font-semibold text-emerald-700 border border-emerald-100">
-                            ${(product.online_price).toFixed(2)}
+                            ${(product.online_price_cents).toFixed(2)}
                         </span>
                     )}
                 </div>
