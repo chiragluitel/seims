@@ -10,7 +10,7 @@ const UpperCheckoutBar = () => {
             <div className="px-4 pb-4 space-y-4">
                 {items.length > 0 ? 
                 (
-                    items.map((item) => (<CartItemDetail key={item.id} id={item.id} name={item.name} price={item.price} image={item.image} quantity={item.quantity}/>))
+                    items.map((item) => (<CartItemDetail key={item.id} id={item.id} name={item.name} price={item.instore_price_cents} image={item.image} quantity={item.quantity}/>))
                 ) : (
                     <p className="text-gray-500 text-center mt-8">No Items on Cart Currently</p>
                 )}

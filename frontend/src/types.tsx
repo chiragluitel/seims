@@ -8,9 +8,19 @@ export interface DetectedObject{
 
 export interface Product {
     id: string,
+    sku: string, 
     name: string,
-    price: number,
-    image: string
+    description: string,
+    long_description: string,
+    instore_price_cents: number, 
+    online_price_cents: number,
+    discounted_price_cents: number,
+    soh_cents: number,
+    ordered_quantity_cents: number,
+    location: Location,
+    category: ProductCategory,
+    image: string,
+    barcode: string
 }
 
 export interface CartItem extends Product {
@@ -28,4 +38,13 @@ export interface User {
     organisation: string, 
     job_title: string,
     hashed_password: string
+}
+
+export interface ProductCategory {
+    id: string,
+    name: string
+}
+export interface Location {
+    id: string,
+    name: string
 }

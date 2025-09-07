@@ -6,17 +6,14 @@ import ProductCardPreview from "../../components/products/ProductCardPreview";
 import CartItemDetail from "../../components/Checkout/above_section/CartItemDetail";
 import ExistingProductFormRW from "../../components/WMS/existingProducts/existingProductFormRW";
 import ExistingProductFormRO from "../../components/WMS/existingProducts/existingProductFormRO";
+import { sample_product } from "../../constants";
+import ProductCard from "../../components/Website/ProductCard";
 
 const UpdateExistingProductUpdateScreen = () =>{ 
     const {productID} = useParams<{productID: string}>()
     const {product} = useGetOneProduct(productID);
     const [isEditMode, setIsEditMode] = useState(false);
-    const [toBeUpdatedProduct, setToBeUpdatedProduct] = useState<Product>({
-        id: product? product.id : 'Product_Id',
-        name: product? product.name: 'Product Name',
-        price: product? product.price : 100,
-        image: product? product.image : '/logoexample.jpg',
-    });
+    const [toBeUpdatedProduct, setToBeUpdatedProduct] = useState<Product>(sample_product);
     
     
       const onInputChangeValue = (field: keyof Product, value: string | number) => {
@@ -31,9 +28,7 @@ const UpdateExistingProductUpdateScreen = () =>{
         {(product && !isEditMode) && (
                 <div className="p-8 text-black bg-white min-h-screen">
                 <h1 className="text-3xl font-bold mb-6">Viewing: {product?.name} </h1>
-
                 <div className="flex items-start space-x-8">
-                
                 <div className="flex-1 bg-white border border-black p-6 rounded-lg shadow-lg">
                     <div className="flex items-start justify-between">
                     <h2 className="text-xl font-semibold mb-4">Product Details</h2>
@@ -47,23 +42,25 @@ const UpdateExistingProductUpdateScreen = () =>{
                     <div className="flex-1 justify-center items-center space-y-4">
                     <ProductCardPreview
                         name={toBeUpdatedProduct.name.length > 0 ? toBeUpdatedProduct.name : "Product Name"}
-                        price={toBeUpdatedProduct.price}
+                        price={toBeUpdatedProduct.instore_price_cents}
                         image={toBeUpdatedProduct.image}
                     />
                     <CartItemDetail 
                     id={toBeUpdatedProduct.id} 
                     name={toBeUpdatedProduct.name} 
-                    price={toBeUpdatedProduct.price} 
+                    price={toBeUpdatedProduct.instore_price_cents} 
                     quantity={1} 
                     image={toBeUpdatedProduct.image} 
                     />
+
+                    <h1 className="text-xl font-semibold mb-4"> Website </h1>
+                    <ProductCard product={product} onClick={()=>{}} />
                     </div>
                 </div>
 
                 </div>
             </div>
         )}
-
 
         {(product && isEditMode) && (
                 <div className="p-8 text-black bg-white min-h-screen">
@@ -75,7 +72,6 @@ const UpdateExistingProductUpdateScreen = () =>{
                     <div className="flex items-start justify-between">
                     <h2 className="text-xl font-semibold mb-4">Product Details</h2>
                     </div>
-                    
                     <ExistingProductFormRW product={product} onInputChange={onInputChangeValue} />
                 </div>
 
@@ -84,17 +80,20 @@ const UpdateExistingProductUpdateScreen = () =>{
                     <div className="flex-1 justify-center items-center space-y-4">
                     <ProductCardPreview
                         name={toBeUpdatedProduct.name.length > 0 ? toBeUpdatedProduct.name : "Product Name"}
-                        price={toBeUpdatedProduct.price}
+                        price={toBeUpdatedProduct.instore_price_cents}
                         image={toBeUpdatedProduct.image}
                     />
                     <CartItemDetail 
                     id={toBeUpdatedProduct.id} 
                     name={toBeUpdatedProduct.name} 
-                    price={toBeUpdatedProduct.price} 
+                    price={toBeUpdatedProduct.instore_price_cents} 
                     quantity={1} 
                     image={toBeUpdatedProduct.image} 
                     />
+                    <h1 className="text-xl font-semibold mb-4"> Website </h1>
+                    <ProductCard product={product} onClick={()=>{}} />
                     </div>
+
                 </div>
 
                 </div>

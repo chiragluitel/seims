@@ -15,6 +15,7 @@ const QuickSelect = () => {
             console.error('Error Occured when adding to cart')
         }
     }
+    console.log(products)
     
     return (
     <>

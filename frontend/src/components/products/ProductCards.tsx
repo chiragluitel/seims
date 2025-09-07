@@ -18,8 +18,8 @@ const ProductCards: React.FC<ProductCardsProps> = ({ product, onClick }) => {
             />
             <div className="p-3">
                 <h2 className="text-gray-800 font-semibold text-md truncate">{product.name}</h2>
-                {product.price !== undefined && (
-                    <p className="text-sm text-gray-600 mt-1">${(product.price).toFixed(2)}</p>
+                {product.instore_price_cents !== undefined && (
+                    <p className="text-sm text-gray-600 mt-1">${(product.instore_price_cents/100).toFixed(2)}</p>
                 )}
             </div>
         </div>

@@ -1,113 +1,49 @@
-import { FiUpload } from "react-icons/fi";
 import type { Product } from "../../../types";
-
+import useGetAllLocations from "../../../hooks/database/useGetAllLocations";
+import useGetAllProductCategories from "../../../hooks/database/useGetAllProductCategories";
+import AutocompleteInput from "../../userinput/AutoCompleteInput";
+import useS3UploadImage from "../../../hooks/s3Ops/useS3UploadImage";
+import StringInputBox from "./stringInputBox";
+import NumberInputBox from "./numberInputBox";
+import ImageInputBox from "./imageInputBox";
 interface NewProductFormProps {
   product: Product;
   onInputChange: (field: keyof Product, value: string | number) => void;
+  onNestedInputChange: <T extends "location" | "category">(field: T, nestedField: keyof Product[T], value: string) => void;
+  onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
+  loading: boolean;
+  formRef: React.RefObject<HTMLFormElement | null>
 }
-
-const NewProductForm: React.FC<NewProductFormProps> = ({ onInputChange }) => {
-  const handleProductRegistration = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log("Product Added");
-  };
+const NewProductForm: React.FC<NewProductFormProps> = ({ formRef, onInputChange, onSubmit, onNestedInputChange, loading }) => {
+  const {locations} = useGetAllLocations();
+  const {categories} = useGetAllProductCategories();
+  const {uploadFunction} = useS3UploadImage();
+  const OnUpload = async (file: File | null ) => {
+    if(!file){
+      return
+    }
+    const s3ImageUrl = await uploadFunction(file);
+    onInputChange('image', s3ImageUrl)
+  }
 
   return (
-    <form onSubmit={handleProductRegistration} className="space-y-6">
-      {/* Name */}
-      <div className="flex flex-col">
-        <label htmlFor="product-name" className="text-sm font-medium text-black mb-1">
-          Product Name
-        </label>
-        <input
-          id="product-name"
-          placeholder="e.g., Wai Wai Noodles"
-          className="bg-gray-700 text-white p-3 rounded-lg border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          onChange={(e) => onInputChange("name", e.target.value)}
-        />
-      </div>
-      {/* Description */}
-      <div className="flex flex-col">
-        <label htmlFor="product-price" className="text-sm font-medium text-black mb-1">
-          Description
-        </label>
-        <input
-          id="product-description"
-          placeholder="e.g., A state of the art product"
-          step="any"
-          className="bg-gray-700 text-white p-3 rounded-lg border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
-      </div>
-
-      {/* Price */}
-      <div className="flex flex-col">
-        <label htmlFor="product-price" className="text-sm font-medium text-black mb-1">
-          Price ($)
-        </label>
-        <input
-          id="product-price"
-          placeholder="e.g., 15.00"
-          type="number"
-          step="any"
-          className="bg-gray-700 text-white p-3 rounded-lg border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          onChange={(e) => onInputChange("price", Number(e.target.value))}
-        />
-      </div>
-
-      {/* SKU */}
-      <div className="flex flex-col">
-        <label htmlFor="product-price" className="text-sm font-medium text-black mb-1">
-          SKU
-        </label>
-        <input
-          id="product-sku"
-          placeholder="e.g., NTWA-009879000"
-          step="any"
-          className="bg-gray-700 text-white p-3 rounded-lg border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
-      </div>
-
-      {/* Category */}
-      <div className="flex flex-col">
-        <label htmlFor="product-price" className="text-sm font-medium text-black mb-1">
-          Category
-        </label>
-        <input
-          id="product-category"
-          placeholder="e.g., Food"
-          step="any"
-          className="bg-gray-700 text-white p-3 rounded-lg border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
-      </div>
-
-
-
-      {/* Image */}
-      <div className="flex flex-col">
-        <label htmlFor="product-image" className="text-sm font-medium text-black mb-1">
-          Image
-        </label>
-        <div className="relative">
-          <input
-            id="product-image"
-            type="file"
-            accept=".jpeg, .png"
-            className="absolute inset-0 opacity-0 cursor-pointer"
-            onChange={(e) => onInputChange("image", e.target.value)}
-          />
-          <div className="flex items-center justify-center p-3 rounded-lg border-2 border-dashed border-gray-600 cursor-pointer hover:bg-gray-700 transition-colors">
-            <FiUpload className="text-gray-400 w-6 h-6 mr-2" />
-            <span className="text-gray-400">Click to upload image</span>
-          </div>
-        </div>
-      </div>
-      
-      <button
-        type="submit"
-        className="w-full bg-black text-white font-bold p-3 rounded-lg cursor-pointer hover:bg-gray-900 transition-colors"
-      >
-        Add Product
-      </button>
+    <form ref={formRef} onSubmit={onSubmit} className="space-y-6">
+    <StringInputBox label="Product Name*" id="product-name" placeholder="E.g. Wai Wai Noodles" onInputChange={onInputChange} labelhtmlfor="product-name" fieldof="name"/>
+    <StringInputBox label="Description*" id="product-description" placeholder="e.g., A state of the art product" onInputChange={onInputChange} labelhtmlfor="product-description" fieldof="description"/>
+    <StringInputBox label="Long Description*" id="product-longdescription" placeholder="e.g., A state of the art product" onInputChange={onInputChange} labelhtmlfor="product-longdescription" fieldof="long_description" />
+    <NumberInputBox label="In-Store Price ($)*" id="product-price-instore" placeholder="e.g., 15.00" onInputChange={onInputChange} labelhtmlfor="product-price-instore" fieldof="instore_price_cents" />
+    <NumberInputBox label="Online Price ($)*" id="product-price-online" placeholder="e.g., 15.00" onInputChange={onInputChange} labelhtmlfor="product-price-online" fieldof="online_price_cents"/>
+    {categories && <AutocompleteInput label="Category" value="" options={categories} placeholder="E.g. Food" onSelect={(value)=>onNestedInputChange("category", "id", value)} /> }
+    <NumberInputBox label="Current Stock" id="product-soh" placeholder="e.g., 15" onInputChange={onInputChange} labelhtmlfor="product-soh" fieldof="soh_cents"/>
+    {locations && <AutocompleteInput label="Location" value="" options={locations} placeholder="E.g. Rack 1" onSelect={(value)=>onNestedInputChange("location", "id", value) }/> }
+    <StringInputBox label="Barcode" id="product-barcode" placeholder="e.g., NTWA-009879000" onInputChange={onInputChange} labelhtmlfor="product-barcode" fieldof="barcode"/>
+    <ImageInputBox label="Product Image" id="product-image" labelhtmlfor="product-image" onUpload={OnUpload} />
+    {loading? (
+      <button type="submit" className="w-full bg-black text-white font-bold p-3 rounded-lg cursor-not-allowed hover:bg-gray-900 transition-colors">Submitting ...</button>
+    ):(
+      <button type="submit" className="w-full bg-black text-white font-bold p-3 rounded-lg cursor-pointer hover:bg-gray-900 transition-colors">Add Product</button>  
+    )}
+    
     </form>
   );
 };
