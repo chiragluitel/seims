@@ -18,7 +18,7 @@ const SearchExistingProducts = () => {
   };
 
   const onProductSelect = (product: Product) => {
-    navigate(`/updateproduct/${product.id}`);
+    navigate(`/updateproduct/${product.sku}`);
   };
 
   return (

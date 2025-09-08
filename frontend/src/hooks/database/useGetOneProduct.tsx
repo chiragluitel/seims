@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import type { Product } from "../../types"
 
-const useGetOneProduct = (productId: string | undefined) =>{ 
+const useGetOneProduct = (sku: string | undefined) =>{ 
     const [product, setProduct] = useState<Product>();
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null)
@@ -9,8 +9,11 @@ const useGetOneProduct = (productId: string | undefined) =>{
         const getOneProduct = async () => {
             try{
                 setError(null);
-                const result = await fetch(`${import.meta.env.VITE_PRODUCTS_BASE_URL}/getOneProduct?productId=${productId}`)
+                console.log('Hook Triggered, SKU:', sku)
+                const result = await fetch(`${import.meta.env.VITE_PRODUCTS_BASE_URL}/getOneProduct?sku=${sku}`)
+                console.log('Result: ', result)
                 const data = await result.json();
+                console.log('DATA: ', data)
                 setProduct(data[0])
             }catch (error: any){
                 setError(error)
@@ -20,7 +23,7 @@ const useGetOneProduct = (productId: string | undefined) =>{
         }
 
         getOneProduct();
-    }, [productId])
+    }, [sku])
 
     return {product, loading, error}
 }
