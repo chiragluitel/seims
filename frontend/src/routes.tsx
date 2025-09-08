@@ -54,7 +54,7 @@ const routes: RouteObject[] = [
                 element: <UpdateExistingProducts />
             },
             {
-                path: '/updateproduct/:productID',
+                path: '/updateproduct/:sku',
                 element: <UpdateExistingProductUpdateScreen />
             },
             {

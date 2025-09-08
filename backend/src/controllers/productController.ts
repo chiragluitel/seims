@@ -317,7 +317,7 @@ export const updateProduct = async (req: Request, res: Response) => {
 
 
 export const getOneProduct = async (req: Request, res: Response) =>{
-    const { productId } = req.query
+    const { sku } = req.query
     try{
         const build_query = `
         SELECT 
@@ -349,9 +349,9 @@ export const getOneProduct = async (req: Request, res: Response) =>{
         LEFT JOIN m_shopfloor_location_master loc on loc.location_id = inv.location_id 
         LEFT JOIN m_category_master cat on cat.category_id = pd.category_id
         LEFT JOIN m_longdescription_detail ld on ld.longdescription_id = pd.longdescription_id
-        WHERE pm.product_id=$1 AND pm.enterprise_id = $2;
+        WHERE pm.sku=$1 AND pm.enterprise_id = $2;
         `
-        const result = await query(build_query, [productId, process.env.ENTERPRISE_KEY] )
+        const result = await query(build_query, [sku, process.env.ENTERPRISE_KEY] )
         res.json(result.rows)
     }catch(error:any){
         console.error('Error Occured when getting Product', error)

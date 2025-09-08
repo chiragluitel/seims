@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import useGetOneProduct from "../../hooks/database/useGetOneProduct";
 import type { Product } from "../../types";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { sample_product } from "../../constants";
 import NonEditingModeScreen from "../../components/WMS/existingProducts/nonEditModeScreen";
 import EditingModeScreen from "../../components/WMS/existingProducts/EditingModeScreen";
@@ -9,21 +9,26 @@ import SuccessPopUpModal from "../../components/PopUps/SuccessPopup";
 import useUpdateOneProduct from "../../hooks/database/useUpdateOneProduct";
 
 const UpdateExistingProductUpdateScreen = () =>{ 
-    const {productID} = useParams<{productID: string}>()
-    const {product} = useGetOneProduct(productID);
+    const {sku} = useParams<{sku: string}>()
+    const {product} = useGetOneProduct(sku);
     const formRef = useRef<HTMLFormElement>(null)
     const [showSuccessPopup, setShowSuccessPopup] = useState(false);
 
     const {updateOneProduct, loading} = useUpdateOneProduct();
     const [isEditMode, setIsEditMode] = useState(false);
-    const [toBeUpdatedProduct, setToBeUpdatedProduct] = useState<Product> (product? product : sample_product);
+    const [toBeUpdatedProduct, setToBeUpdatedProduct] = useState<Product> (sample_product);
+    useEffect(()=>{
+      if(product){
+        setToBeUpdatedProduct(product);
+      }
+    }, [product])
+    console.log('TO BE UPDATED PRODUCT: ', toBeUpdatedProduct)
     const onInputChangeValue = (field: keyof Product, value: string | number) => {
         setToBeUpdatedProduct((prevProduct) => ({
           ...prevProduct,
           [field]: value,
         }));
     };
-    console.log('This product will be sent to Backend:', toBeUpdatedProduct)
     const onNestedInputChangeValue = <T extends "location" | "category">(
         field: T,
         nestedField: keyof Product[T],
